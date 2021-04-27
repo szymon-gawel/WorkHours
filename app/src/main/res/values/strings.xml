@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">WorkHours</string>
+    <string name="add_hours">Add working hours</string>
+    <string name="show_details">Show working details</string>
+    <string name="month_hours_text">Last month</string>
+    <string name="week_hours_text">Last week</string>
+    <string name="add_hours_button">Add hours</string>
+</resources>
