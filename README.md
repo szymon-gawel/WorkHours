@@ -9,3 +9,5 @@ Future functionality:
 - Deleting last input
 - Showing history of months
 - Showing full monthly raport 
+
+App is still in early stage, please follow the project to see next steps.
