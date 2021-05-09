@@ -5,4 +5,5 @@
     <string name="month_hours_text">Last month</string>
     <string name="week_hours_text">Last week</string>
     <string name="add_hours_button">Add hours</string>
+    <string name="add_hours_hint">4.15 (hours.minutes)</string>
 </resources>

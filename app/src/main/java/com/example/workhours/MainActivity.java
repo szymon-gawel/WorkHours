@@ -23,13 +23,11 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     EditText addHours;
     TextView monthHoursText;
-    TextView weekHoursText;
-    double monthHours;
-    double weekHours;
-    double hoursCount;
-    double minutesCount;
+    int spHours;
+    int spMinutes;
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,25 +37,60 @@ public class MainActivity extends AppCompatActivity {
 
         addHours = findViewById(R.id.addHoursEditView);
         monthHoursText = findViewById(R.id.hoursInMonth);
-        weekHoursText = findViewById(R.id.hoursInWeek);
+
+        /*sharedPreferences.edit().putInt("Hours", 0).apply();
+        sharedPreferences.edit().putInt("Minutes", 0).apply();*/
+
+        spHours = sharedPreferences.getInt("Hours", 0);
+        spMinutes = sharedPreferences.getInt("Minutes", 0);
+
+        if(spMinutes < 10) {
+            monthHoursText.setText(spHours + ".0" + spMinutes);
+        } else {
+            monthHoursText.setText(spHours + "." + spMinutes);
+        }
         
     }
 
+    @SuppressLint({"CommitPrefEdits", "SetTextI18n"})
     public void onAddHoursButtonClick(View view){
-        String hours = addHours.toString();
+        String hours = addHours.getText().toString();
         String[] splitedHours = hours.split("\\.");
 
-        hoursCount = Double.parseDouble(splitedHours[0]);
-        minutesCount = 1/(Double.parseDouble(splitedHours[1])/60);
+        Log.i("Hours", splitedHours[0]);
+        Log.i("Minutes", splitedHours[1]);
 
-        monthHours += hoursCount + minutesCount;
-        weekHours += hoursCount + minutesCount;
+        int h = Integer.parseInt(splitedHours[0]);
+        int m = Integer.parseInt(splitedHours[1]);
 
-        String currentHoursCount = String.valueOf(hoursCount);
-        String currentMinutesCount = String.valueOf(60*minutesCount);
+        Log.i("Hours", String.valueOf(h));
+        Log.i("Minutes", String.valueOf(m));
 
-        String currentHours = currentHoursCount + "." + currentMinutesCount;
-        monthHoursText.setText(currentHours);
+        spHours += h;
+        spMinutes += m;
+
+        Log.i("Hours", String.valueOf(spHours));
+        Log.i("Minutes", String.valueOf(spMinutes));
+
+        if(spMinutes == 60){
+            spHours += 1;
+            spMinutes = 0;
+        } else if (spMinutes > 60) {
+            spHours += 1;
+            spMinutes -= 60;
+        }
+
+        sharedPreferences.edit().putInt("Hours", spHours).apply();
+        sharedPreferences.edit().putInt("Minutes", spMinutes).apply();
+
+        int hoursToDisplay = sharedPreferences.getInt("Hours", 0);
+        int minutesToDisplay = sharedPreferences.getInt("Minutes", 0);
+
+        if(minutesToDisplay < 10) {
+            monthHoursText.setText(hoursToDisplay + ".0" + minutesToDisplay);
+        } else {
+            monthHoursText.setText(hoursToDisplay + "." + minutesToDisplay);
+        }
     }
 
     @Override
