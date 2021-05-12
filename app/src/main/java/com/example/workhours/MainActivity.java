@@ -1,14 +1,18 @@
 package com.example.workhours;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.icu.util.Calendar;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -34,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     int spLastMinutes;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,79 +75,105 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     public void onDeleteHoursButtonClick(View view){
-        String hours = deleteHours.getText().toString();
-        String[] splitedHours = hours.split("\\.");
+        try{
+            String hours = deleteHours.getText().toString();
+            String[] splitedHours = hours.split("\\.");
 
-        Log.i("Hours", splitedHours[0]);
-        Log.i("Minutes", splitedHours[1]);
+            Log.i("Hours", splitedHours[0]);
+            Log.i("Minutes", splitedHours[1]);
 
-        int h = Integer.parseInt(splitedHours[0]);
-        int m = Integer.parseInt(splitedHours[1]);
+            int h = Integer.parseInt(splitedHours[0]);
+            int m = Integer.parseInt(splitedHours[1]);
 
-        spHours -= h;
-        spMinutes -= m;
+            spHours -= h;
+            spMinutes -= m;
 
-        Log.i("Hours", String.valueOf(spHours));
-        Log.i("Minutes", String.valueOf(spMinutes));
+            Log.i("Hours", String.valueOf(spHours));
+            Log.i("Minutes", String.valueOf(spMinutes));
 
-        if(spMinutes < 0){
-            spHours -= 1;
-            spMinutes += 60;
+            if(spMinutes < 0){
+                spHours -= 1;
+                spMinutes += 60;
+            }
+
+            sharedPreferences.edit().putInt("Hours", spHours).apply();
+            sharedPreferences.edit().putInt("Minutes", spMinutes).apply();
+
+            int hoursToDisplay = sharedPreferences.getInt("Hours", 0);
+            int minutesToDisplay = sharedPreferences.getInt("Minutes", 0);
+
+            if(minutesToDisplay < 10) {
+                monthHoursText.setText(hoursToDisplay + ".0" + minutesToDisplay);
+            } else {
+                monthHoursText.setText(hoursToDisplay + "." + minutesToDisplay);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            showFormatDialog();
         }
 
-        sharedPreferences.edit().putInt("Hours", spHours).apply();
-        sharedPreferences.edit().putInt("Minutes", spMinutes).apply();
-
-        int hoursToDisplay = sharedPreferences.getInt("Hours", 0);
-        int minutesToDisplay = sharedPreferences.getInt("Minutes", 0);
-
-        if(minutesToDisplay < 10) {
-            monthHoursText.setText(hoursToDisplay + ".0" + minutesToDisplay);
-        } else {
-            monthHoursText.setText(hoursToDisplay + "." + minutesToDisplay);
-        }
     }
 
     @SuppressLint({"CommitPrefEdits", "SetTextI18n"})
     public void onAddHoursButtonClick(View view){
-        String hours = addHours.getText().toString();
-        String[] splitedHours = hours.split("\\.");
+        try {
+            String hours = addHours.getText().toString();
+            String[] splitedHours = hours.split("\\.");
 
-        Log.i("Hours", splitedHours[0]);
-        Log.i("Minutes", splitedHours[1]);
+            Log.i("Hours", splitedHours[0]);
+            Log.i("Minutes", splitedHours[1]);
 
-        int h = Integer.parseInt(splitedHours[0]);
-        int m = Integer.parseInt(splitedHours[1]);
+            int h = Integer.parseInt(splitedHours[0]);
+            int m = Integer.parseInt(splitedHours[1]);
 
-        Log.i("Hours", String.valueOf(h));
-        Log.i("Minutes", String.valueOf(m));
+            Log.i("Hours", String.valueOf(h));
+            Log.i("Minutes", String.valueOf(m));
 
-        spHours += h;
-        spMinutes += m;
+            spHours += h;
+            spMinutes += m;
 
-        Log.i("Hours", String.valueOf(spHours));
-        Log.i("Minutes", String.valueOf(spMinutes));
+            Log.i("Hours", String.valueOf(spHours));
+            Log.i("Minutes", String.valueOf(spMinutes));
 
-        if(spMinutes == 60){
-            spHours += 1;
-            spMinutes = 0;
-        } else if (spMinutes > 60) {
-            spHours += 1;
-            spMinutes -= 60;
+            if(spMinutes == 60){
+                spHours += 1;
+                spMinutes = 0;
+            } else if (spMinutes > 60) {
+                spHours += 1;
+                spMinutes -= 60;
+            }
+
+            sharedPreferences.edit().putInt("Hours", spHours).apply();
+            sharedPreferences.edit().putInt("Minutes", spMinutes).apply();
+
+            int hoursToDisplay = sharedPreferences.getInt("Hours", 0);
+            int minutesToDisplay = sharedPreferences.getInt("Minutes", 0);
+
+            if(minutesToDisplay < 10) {
+                monthHoursText.setText(hoursToDisplay + ".0" + minutesToDisplay);
+            } else {
+                monthHoursText.setText(hoursToDisplay + "." + minutesToDisplay);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            showFormatDialog();
         }
 
-        sharedPreferences.edit().putInt("Hours", spHours).apply();
-        sharedPreferences.edit().putInt("Minutes", spMinutes).apply();
-
-        int hoursToDisplay = sharedPreferences.getInt("Hours", 0);
-        int minutesToDisplay = sharedPreferences.getInt("Minutes", 0);
-
-        if(minutesToDisplay < 10) {
-            monthHoursText.setText(hoursToDisplay + ".0" + minutesToDisplay);
-        } else {
-            monthHoursText.setText(hoursToDisplay + "." + minutesToDisplay);
-        }
+    }
+    
+    public void showFormatDialog(){
+        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+        alertDialog.setTitle("Warning");
+        alertDialog.setMessage("Use shown format");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 
     @Override
