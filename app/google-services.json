@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "573806384565",
+    "project_id": "workhours-5953b",
+    "storage_bucket": "workhours-5953b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573806384565:android:adeed3ccb129df9c0a35fc",
+        "android_client_info": {
+          "package_name": "com.example.workhours"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "573806384565-u9k33r7b85lh5p7u3079pg4lnvklr0cj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZExoUZYpIn_evPnQ1mlcL-kg8SvzeImU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "573806384565-u9k33r7b85lh5p7u3079pg4lnvklr0cj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

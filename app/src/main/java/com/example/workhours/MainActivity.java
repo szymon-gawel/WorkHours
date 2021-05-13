@@ -52,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
         monthHoursText = findViewById(R.id.hoursInMonth);
 
         //Leave for testing purpose
-        sharedPreferences.edit().putInt("Hours", 0).apply();
-        sharedPreferences.edit().putInt("Minutes", 0).apply();
+        /*sharedPreferences.edit().putInt("Hours", 0).apply();
+        sharedPreferences.edit().putInt("Minutes", 0).apply();*/
 
         spHours = sharedPreferences.getInt("Hours", 0);
         spMinutes = sharedPreferences.getInt("Minutes", 0);
@@ -81,33 +81,35 @@ public class MainActivity extends AppCompatActivity {
             String hours = deleteHours.getText().toString();
             String[] splitedHours = hours.split("\\.");
 
-            Log.i("Hours", splitedHours[0]);
-            Log.i("Minutes", splitedHours[1]);
+            if(Integer.parseInt(splitedHours[1]) < 60){
+                int h = Integer.parseInt(splitedHours[0]);
+                int m = Integer.parseInt(splitedHours[1]);
 
-            int h = Integer.parseInt(splitedHours[0]);
-            int m = Integer.parseInt(splitedHours[1]);
+                spHours -= h;
+                spMinutes -= m;
 
-            spHours -= h;
-            spMinutes -= m;
+                if(spMinutes < 0){
+                    spHours -= 1;
+                    spMinutes += 60;
+                }
 
-            Log.i("Hours", String.valueOf(spHours));
-            Log.i("Minutes", String.valueOf(spMinutes));
+                if(spHours >= 0 && spMinutes >= 0){
+                    sharedPreferences.edit().putInt("Hours", spHours).apply();
+                    sharedPreferences.edit().putInt("Minutes", spMinutes).apply();
 
-            if(spMinutes < 0){
-                spHours -= 1;
-                spMinutes += 60;
-            }
+                    int hoursToDisplay = sharedPreferences.getInt("Hours", 0);
+                    int minutesToDisplay = sharedPreferences.getInt("Minutes", 0);
 
-            sharedPreferences.edit().putInt("Hours", spHours).apply();
-            sharedPreferences.edit().putInt("Minutes", spMinutes).apply();
-
-            int hoursToDisplay = sharedPreferences.getInt("Hours", 0);
-            int minutesToDisplay = sharedPreferences.getInt("Minutes", 0);
-
-            if(minutesToDisplay < 10) {
-                monthHoursText.setText(hoursToDisplay + ".0" + minutesToDisplay);
+                    if(minutesToDisplay < 10) {
+                        monthHoursText.setText(hoursToDisplay + ".0" + minutesToDisplay);
+                    } else {
+                        monthHoursText.setText(hoursToDisplay + "." + minutesToDisplay);
+                    }
+                } else {
+                    showNegativeNumberDialog();
+                }
             } else {
-                monthHoursText.setText(hoursToDisplay + "." + minutesToDisplay);
+                showErrorMinutesDialog();
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -122,39 +124,34 @@ public class MainActivity extends AppCompatActivity {
             String hours = addHours.getText().toString();
             String[] splitedHours = hours.split("\\.");
 
-            Log.i("Hours", splitedHours[0]);
-            Log.i("Minutes", splitedHours[1]);
+            if(Integer.parseInt(splitedHours[1]) < 60){
+                int h = Integer.parseInt(splitedHours[0]);
+                int m = Integer.parseInt(splitedHours[1]);
 
-            int h = Integer.parseInt(splitedHours[0]);
-            int m = Integer.parseInt(splitedHours[1]);
+                spHours += h;
+                spMinutes += m;
 
-            Log.i("Hours", String.valueOf(h));
-            Log.i("Minutes", String.valueOf(m));
+                if(spMinutes == 60){
+                    spHours += 1;
+                    spMinutes = 0;
+                } else if (spMinutes > 60) {
+                    spHours += 1;
+                    spMinutes -= 60;
+                }
 
-            spHours += h;
-            spMinutes += m;
+                sharedPreferences.edit().putInt("Hours", spHours).apply();
+                sharedPreferences.edit().putInt("Minutes", spMinutes).apply();
 
-            Log.i("Hours", String.valueOf(spHours));
-            Log.i("Minutes", String.valueOf(spMinutes));
+                int hoursToDisplay = sharedPreferences.getInt("Hours", 0);
+                int minutesToDisplay = sharedPreferences.getInt("Minutes", 0);
 
-            if(spMinutes == 60){
-                spHours += 1;
-                spMinutes = 0;
-            } else if (spMinutes > 60) {
-                spHours += 1;
-                spMinutes -= 60;
-            }
-
-            sharedPreferences.edit().putInt("Hours", spHours).apply();
-            sharedPreferences.edit().putInt("Minutes", spMinutes).apply();
-
-            int hoursToDisplay = sharedPreferences.getInt("Hours", 0);
-            int minutesToDisplay = sharedPreferences.getInt("Minutes", 0);
-
-            if(minutesToDisplay < 10) {
-                monthHoursText.setText(hoursToDisplay + ".0" + minutesToDisplay);
+                if(minutesToDisplay < 10) {
+                    monthHoursText.setText(hoursToDisplay + ".0" + minutesToDisplay);
+                } else {
+                    monthHoursText.setText(hoursToDisplay + "." + minutesToDisplay);
+                }
             } else {
-                monthHoursText.setText(hoursToDisplay + "." + minutesToDisplay);
+                showErrorMinutesDialog();
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -167,6 +164,32 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
         alertDialog.setTitle("Warning");
         alertDialog.setMessage("Use shown format");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
+
+    public void showNegativeNumberDialog(){
+        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+        alertDialog.setTitle("Warning");
+        alertDialog.setMessage("Working time below 0 is not possible");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
+
+    public void showErrorMinutesDialog(){
+        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+        alertDialog.setTitle("Warning");
+        alertDialog.setMessage("Please, use range of minutes between 0-59");
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
