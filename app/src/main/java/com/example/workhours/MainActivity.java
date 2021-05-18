@@ -23,9 +23,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.time.MonthDay;
 
 public class MainActivity extends AppCompatActivity {
+
+    private FirebaseAnalytics mFirebaseAnalytics;
+    FirebaseFirestore db;
 
     SharedPreferences sharedPreferences;
     EditText addHours;
@@ -43,7 +49,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         setContentView(R.layout.activity_main);
+
+        db = FirebaseFirestore.getInstance();
 
         sharedPreferences = getSharedPreferences("com.example.workhours", MODE_PRIVATE);
 
