@@ -14,6 +14,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,9 +24,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.type.Date;
+import com.google.type.DateTime;
 
+import java.time.LocalDateTime;
 import java.time.MonthDay;
 
 public class MainActivity extends AppCompatActivity {
@@ -133,6 +141,9 @@ public class MainActivity extends AppCompatActivity {
             String hours = addHours.getText().toString();
             String[] splitedHours = hours.split("\\.");
 
+            WorkLog workLog = new WorkLog(LocalDateTime.now(), Integer.parseInt(splitedHours[0]) , Integer.parseInt(splitedHours[1]));
+            db.collection("workLogs").add(workLog);
+
             if(Integer.parseInt(splitedHours[1]) < 60){
                 int h = Integer.parseInt(splitedHours[0]);
                 int m = Integer.parseInt(splitedHours[1]);
@@ -223,6 +234,20 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.showDetails:
+                db.collection("workLogs")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        Log.d("WorkLog", document.getId() + " => " + document.getData());
+                                    }
+                                } else {
+                                    Log.d("WorkLog", "Error getting documents: ", task.getException());
+                                }
+                            }
+                        });
                 break;
         }
 
