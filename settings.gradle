@@ -1,2 +1,9 @@
+pluginManagement {
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+        gradlePluginPortal()
+    }
+}
+//rootProject.buildFileName = 'build.gradle.kts'
 include ':app'
 rootProject.name = "WorkHours"
