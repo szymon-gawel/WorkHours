@@ -1,29 +1,55 @@
 package com.example.workhours;
 
-import com.google.type.DateTime;
-
-import java.time.LocalDateTime;
-
 public class WorkLog {
-    private LocalDateTime dateTime;
-    private int hours;
-    private int minutes;
+    private long id;
+    private String date;
+    private String hours;
+    private String minutes;
 
-    public WorkLog(LocalDateTime dateTime, int hours, int minutes) {
-        this.dateTime = dateTime;
+    public WorkLog() {
+    }
+
+    public WorkLog(long id, String dateTime, String hours, String minutes) {
+        this.id = id;
+        this.date = dateTime;
         this.hours = hours;
         this.minutes = minutes;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public long getId() {
+        return id;
     }
 
-    public int getHours() {
+    public String getDate() {
+        return date;
+    }
+
+    public String getHours() {
         return hours;
     }
 
-    public int getMinutes() {
+    public String getMinutes() {
         return minutes;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setHours(String hours) {
+        this.hours = hours;
+    }
+
+    public void setMinutes(String minutes) {
+        this.minutes = minutes;
+    }
+
+    @Override
+    public String toString() {
+        return "WorkLog " + "dateTime = " + date + ", hours = " + hours + ", minutes = " + minutes;
     }
 }

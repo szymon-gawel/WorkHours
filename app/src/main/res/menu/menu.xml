@@ -4,5 +4,9 @@
         android:title="@string/show_details"
         android:id="@+id/showDetails"
     />
+    <item
+        android:title="@string/main_screen"
+        android:id="@+id/mainScreen"
+        />
 
 </menu>

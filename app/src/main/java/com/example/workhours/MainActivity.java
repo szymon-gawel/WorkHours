@@ -23,23 +23,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.type.Date;
-import com.google.type.DateTime;
+
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.MonthDay;
+import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAnalytics mFirebaseAnalytics;
-    FirebaseFirestore db;
+    private LogsDbAdapter logsDbAdapter;
+    private List<WorkLog> logs;
+
 
     SharedPreferences sharedPreferences;
     EditText addHours;
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     int currentDay;
     int spLastHours;
     int spLastMinutes;
+    String action;
+    String logDate;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -60,9 +64,8 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         setContentView(R.layout.activity_main);
 
-        db = FirebaseFirestore.getInstance();
-
         sharedPreferences = getSharedPreferences("com.example.workhours", MODE_PRIVATE);
+        logsDbAdapter = new LogsDbAdapter(getApplicationContext());
 
         addHours = findViewById(R.id.addHoursEditView);
         deleteHours = findViewById(R.id.deleteHoursEditView);
@@ -90,10 +93,21 @@ public class MainActivity extends AppCompatActivity {
         } else {
             monthHoursText.setText(spHours + "." + spMinutes);
         }
+
+        String currentDate = LocalDateTime.now().toString();
+        String[] dateAndTime = currentDate.split("T");
+        String dateOnly = dateAndTime[0];
+
+        String timeAndMilisecondsString = dateAndTime[1];
+        String[] timeAndMiliseconds = timeAndMilisecondsString.split("\\.");
+        String timeOnly = timeAndMiliseconds[0];
+
+        logDate = dateOnly + " " + timeOnly;
     }
 
     @SuppressLint("SetTextI18n")
     public void onDeleteHoursButtonClick(View view){
+        action = "delete";
         try{
             String hours = deleteHours.getText().toString();
             String[] splitedHours = hours.split("\\.");
@@ -137,12 +151,16 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint({"CommitPrefEdits", "SetTextI18n"})
     public void onAddHoursButtonClick(View view){
+        action = "add";
         try {
             String hours = addHours.getText().toString();
             String[] splitedHours = hours.split("\\.");
 
-            WorkLog workLog = new WorkLog(LocalDateTime.now(), Integer.parseInt(splitedHours[0]) , Integer.parseInt(splitedHours[1]));
-            db.collection("workLogs").add(workLog);
+            String currentDate = getCurrentDate();
+
+
+            logsDbAdapter.open();
+            logsDbAdapter.insertLog(currentDate, splitedHours[0], splitedHours[1]);
 
             if(Integer.parseInt(splitedHours[1]) < 60){
                 int h = Integer.parseInt(splitedHours[0]);
@@ -178,6 +196,19 @@ public class MainActivity extends AppCompatActivity {
             showFormatDialog();
         }
 
+    }
+
+    public String getCurrentDate(){
+        String currentDate = LocalDateTime.now().toString();
+        String[] dateAndTime = currentDate.split("T");
+        String dateOnly = dateAndTime[0];
+
+        String timeAndMilisecondsString = dateAndTime[1];
+        String[] timeAndMiliseconds = timeAndMilisecondsString.split("\\.");
+        String timeOnly = timeAndMiliseconds[0];
+
+        logDate = dateOnly + " " + timeOnly;
+        return logDate;
     }
     
     public void showFormatDialog(){
@@ -234,20 +265,12 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.showDetails:
-                db.collection("workLogs")
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        Log.d("WorkLog", document.getId() + " => " + document.getData());
-                                    }
-                                } else {
-                                    Log.d("WorkLog", "Error getting documents: ", task.getException());
-                                }
-                            }
-                        });
+                Intent showDetailsIntent = new Intent(this, LogActivity.class);
+                startActivity(showDetailsIntent);
+                break;
+            case R.id.mainScreen:
+                Intent mainActivityIntent = new Intent(this, MainActivity.class);
+                startActivity(mainActivityIntent);
                 break;
         }
 

@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "573806384565",
-    "project_id": "workhours-5953b",
-    "storage_bucket": "workhours-5953b.appspot.com"
+    "project_number": "472237254986",
+    "project_id": "workhours-22995",
+    "storage_bucket": "workhours-22995.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:573806384565:android:adeed3ccb129df9c0a35fc",
+        "mobilesdk_app_id": "1:472237254986:android:6e3e8e100249ed979479b3",
         "android_client_info": {
           "package_name": "com.example.workhours"
         }
       },
       "oauth_client": [
         {
-          "client_id": "573806384565-u9k33r7b85lh5p7u3079pg4lnvklr0cj.apps.googleusercontent.com",
+          "client_id": "472237254986-t4hjiatvebvvdo55kn0imdn2lh4b0vc6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.workhours",
+            "certificate_hash": "671cddc848db6ee52549f0fdddf61f984f7f02a8"
+          }
+        },
+        {
+          "client_id": "472237254986-nb02ej0vh2ibfmk8b5bglbjt6iggggon.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBZExoUZYpIn_evPnQ1mlcL-kg8SvzeImU"
+          "current_key": "AIzaSyA1WRe732MsegRVeqelNJwwYMEfCVFnuAg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "573806384565-u9k33r7b85lh5p7u3079pg4lnvklr0cj.apps.googleusercontent.com",
+              "client_id": "472237254986-nb02ej0vh2ibfmk8b5bglbjt6iggggon.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
