@@ -1,6 +1,7 @@
 package com.example.workhours;
 
 public class WorkLog {
+    private int id;
     private String date;
     private String hours;
     private String minutes;
@@ -9,6 +10,13 @@ public class WorkLog {
     }
 
     public WorkLog(String dateTime, String hours, String minutes) {
+        this.date = dateTime;
+        this.hours = hours;
+        this.minutes = minutes;
+    }
+
+    public WorkLog(int id, String dateTime, String hours, String minutes) {
+        this.id = id;
         this.date = dateTime;
         this.hours = hours;
         this.minutes = minutes;

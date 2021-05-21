@@ -27,17 +27,31 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.MonthDay;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     private List<WorkLog> logs;
-    private SQLiteDatabase database;
+    private DocumentReference docRef;
+
+    public static final String DATE_KEY = "date";
+    public static final String HOURS_KEY = "hours";
+    public static final String MINUTES_KEY = "minutes";
+    public static final String TAG = "DATABASE";
 
     SharedPreferences sharedPreferences;
     EditText addHours;
@@ -48,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     int currentDay;
     int spLastHours;
     int spLastMinutes;
+    int docNumber;
     String action;
     String logDate;
 
@@ -60,20 +75,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         sharedPreferences = getSharedPreferences("com.example.workhours", MODE_PRIVATE);
-        database = this.openOrCreateDatabase("Logs", MODE_PRIVATE, null);
 
         addHours = findViewById(R.id.addHoursEditView);
         deleteHours = findViewById(R.id.deleteHoursEditView);
         monthHoursText = findViewById(R.id.hoursInMonth);
 
-        createLogsTable();
-
         //Leave for testing purpose
-        /*sharedPreferences.edit().putInt("Hours", 0).apply();
-        sharedPreferences.edit().putInt("Minutes", 0).apply();*/
+        sharedPreferences.edit().putInt("Hours", 0).apply();
+        sharedPreferences.edit().putInt("Minutes", 0).apply();
+        sharedPreferences.edit().putInt("DocNum", 0).apply();
 
         spHours = sharedPreferences.getInt("Hours", 0);
         spMinutes = sharedPreferences.getInt("Minutes", 0);
+        docNumber = sharedPreferences.getInt("DocNum", 0);
 
         Calendar cal = Calendar.getInstance();
         currentDay = cal.get(Calendar.DAY_OF_MONTH);
@@ -102,37 +116,6 @@ public class MainActivity extends AppCompatActivity {
         logDate = dateOnly + " " + timeOnly;
     }
 
-    public void createLogsTable(){
-        database.execSQL("CREATE TABLE IF NOT EXISTS logs (date VARCHAR, hours VARCHAR, minutes VARCHAR)");
-    }
-
-    public void addLogToDatabase(WorkLog log){
-        String logDate = log.getDate();
-        String logHours = log.getHours();
-        String logMinutes = log.getMinutes();
-        database.execSQL("INSERT INTO logs (date, hours, minutes) VALUES (" + "'" + logDate + "'" + ", " + "'" + logHours + "'" + ", " + "'" + logMinutes + "'" + ")");
-    }
-
-    public List<WorkLog> getLogsFromDatabase(){
-        List<WorkLog> logs = new ArrayList<WorkLog>();
-        @SuppressLint("Recycle")
-        Cursor c = database.rawQuery("SELECT * FROM logs", null);
-
-        int dateIndex = c.getColumnIndex("date");
-        int hoursIndex = c.getColumnIndex("hours");
-        int minutesIndex = c.getColumnIndex("minutes");
-
-        c.moveToFirst();
-
-        while(!c.isAfterLast()){
-            WorkLog log = new WorkLog(c.getString(dateIndex), c.getString(hoursIndex), c.getString(minutesIndex));
-            logs.add(log);
-
-            c.moveToNext();
-        }
-
-        return logs;
-    }
 
     @SuppressLint("SetTextI18n")
     public void onDeleteHoursButtonClick(View view){
@@ -180,8 +163,8 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint({"CommitPrefEdits", "SetTextI18n"})
     public void onAddHoursButtonClick(View view){
-        action = "add";
         try {
+            sharedPreferences.edit().putString("Doc", "log" + String.valueOf(docNumber)).apply();
             String hours = addHours.getText().toString();
             String[] splitedHours = hours.split("\\.");
 
@@ -190,7 +173,30 @@ public class MainActivity extends AppCompatActivity {
             try {
                 WorkLog log = new WorkLog(currentDate, splitedHours[0], splitedHours[1]);
 
-                addLogToDatabase(log);
+                Map<String, Object> logToSave = new HashMap<String, Object>();
+                logToSave.put(DATE_KEY, log.getDate());
+                logToSave.put(HOURS_KEY, log.getHours());
+                logToSave.put(MINUTES_KEY, log.getMinutes());
+
+                String docName = sharedPreferences.getString("Doc", null);
+                docRef = FirebaseFirestore.getInstance().document("logs/" + docName);
+
+                docRef.set(logToSave).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.i(TAG, "Document has been saved!");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull @NotNull Exception e) {
+                        Log.i(TAG, "Document has not been saved!", e);
+                    }
+                });
+
+                docNumber += 1;
+                Log.i("DocNum", String.valueOf(docNumber));
+                sharedPreferences.edit().putInt("DocNum", docNumber).apply();
+
             } catch (Exception e){
                 e.printStackTrace();
             }

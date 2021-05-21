@@ -17,6 +17,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -24,8 +30,9 @@ import java.util.Objects;
 public class LogActivity extends AppCompatActivity {
 
     private ListView listView;
-    private SQLiteDatabase database;
-    List<WorkLog> logs;
+    private CollectionReference colRef;
+
+    ArrayList<String> logs;
 
 
     @Override
@@ -34,32 +41,13 @@ public class LogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_log);
 
         listView = (ListView) findViewById(R.id.logsView);
-        logs = getLogsFromDatabase();
+        logs = new ArrayList<String>();
 
-        ArrayAdapter<WorkLog> adapter = new ArrayAdapter<WorkLog>(this, android.R.layout.list_content, logs);
-        listView.setAdapter(adapter);
+        colRef = FirebaseFirestore.getInstance().collection("logs");
+
+
     }
 
-    public List<WorkLog> getLogsFromDatabase(){
-        List<WorkLog> logs = new ArrayList<WorkLog>();
-        @SuppressLint("Recycle")
-        Cursor c = database.rawQuery("SELECT * FROM logs", null);
-
-        int dateIndex = c.getColumnIndex("date");
-        int hoursIndex = c.getColumnIndex("hours");
-        int minutesIndex = c.getColumnIndex("minutes");
-
-        c.moveToFirst();
-
-        while(!c.isAfterLast()){
-            WorkLog log = new WorkLog(c.getString(dateIndex), c.getString(hoursIndex), c.getString(minutesIndex));
-            logs.add(log);
-
-            c.moveToNext();
-        }
-
-        return logs;
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
