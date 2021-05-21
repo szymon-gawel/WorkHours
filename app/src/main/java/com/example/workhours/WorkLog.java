@@ -1,7 +1,6 @@
 package com.example.workhours;
 
 public class WorkLog {
-    private long id;
     private String date;
     private String hours;
     private String minutes;
@@ -9,15 +8,10 @@ public class WorkLog {
     public WorkLog() {
     }
 
-    public WorkLog(long id, String dateTime, String hours, String minutes) {
-        this.id = id;
+    public WorkLog(String dateTime, String hours, String minutes) {
         this.date = dateTime;
         this.hours = hours;
         this.minutes = minutes;
-    }
-
-    public long getId() {
-        return id;
     }
 
     public String getDate() {
@@ -30,10 +24,6 @@ public class WorkLog {
 
     public String getMinutes() {
         return minutes;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public void setDate(String date) {

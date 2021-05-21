@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.icu.util.Calendar;
 import android.os.Build;
@@ -25,23 +26,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.analytics.FirebaseAnalytics;
-
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.MonthDay;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FirebaseAnalytics mFirebaseAnalytics;
-    private LogsDbAdapter logsDbAdapter;
     private List<WorkLog> logs;
-
+    private SQLiteDatabase database;
 
     SharedPreferences sharedPreferences;
     EditText addHours;
@@ -61,15 +57,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         setContentView(R.layout.activity_main);
 
         sharedPreferences = getSharedPreferences("com.example.workhours", MODE_PRIVATE);
-        logsDbAdapter = new LogsDbAdapter(getApplicationContext());
+        database = this.openOrCreateDatabase("Logs", MODE_PRIVATE, null);
 
         addHours = findViewById(R.id.addHoursEditView);
         deleteHours = findViewById(R.id.deleteHoursEditView);
         monthHoursText = findViewById(R.id.hoursInMonth);
+
+        createLogsTable();
 
         //Leave for testing purpose
         /*sharedPreferences.edit().putInt("Hours", 0).apply();
@@ -103,6 +100,38 @@ public class MainActivity extends AppCompatActivity {
         String timeOnly = timeAndMiliseconds[0];
 
         logDate = dateOnly + " " + timeOnly;
+    }
+
+    public void createLogsTable(){
+        database.execSQL("CREATE TABLE IF NOT EXISTS logs (date VARCHAR, hours VARCHAR, minutes VARCHAR)");
+    }
+
+    public void addLogToDatabase(WorkLog log){
+        String logDate = log.getDate();
+        String logHours = log.getHours();
+        String logMinutes = log.getMinutes();
+        database.execSQL("INSERT INTO logs (date, hours, minutes) VALUES (" + "'" + logDate + "'" + ", " + "'" + logHours + "'" + ", " + "'" + logMinutes + "'" + ")");
+    }
+
+    public List<WorkLog> getLogsFromDatabase(){
+        List<WorkLog> logs = new ArrayList<WorkLog>();
+        @SuppressLint("Recycle")
+        Cursor c = database.rawQuery("SELECT * FROM logs", null);
+
+        int dateIndex = c.getColumnIndex("date");
+        int hoursIndex = c.getColumnIndex("hours");
+        int minutesIndex = c.getColumnIndex("minutes");
+
+        c.moveToFirst();
+
+        while(!c.isAfterLast()){
+            WorkLog log = new WorkLog(c.getString(dateIndex), c.getString(hoursIndex), c.getString(minutesIndex));
+            logs.add(log);
+
+            c.moveToNext();
+        }
+
+        return logs;
     }
 
     @SuppressLint("SetTextI18n")
@@ -158,9 +187,15 @@ public class MainActivity extends AppCompatActivity {
 
             String currentDate = getCurrentDate();
 
+            try {
+                WorkLog log = new WorkLog(currentDate, splitedHours[0], splitedHours[1]);
 
-            logsDbAdapter.open();
-            logsDbAdapter.insertLog(currentDate, splitedHours[0], splitedHours[1]);
+                addLogToDatabase(log);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+
+
 
             if(Integer.parseInt(splitedHours[1]) < 60){
                 int h = Integer.parseInt(splitedHours[0]);

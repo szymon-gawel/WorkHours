@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,9 +17,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -26,8 +24,8 @@ import java.util.Objects;
 public class LogActivity extends AppCompatActivity {
 
     private ListView listView;
-    private LogsDbAdapter logsDbAdapter;
-    ArrayList<WorkLog> logs;
+    private SQLiteDatabase database;
+    List<WorkLog> logs;
 
 
     @Override
@@ -36,23 +34,31 @@ public class LogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_log);
 
         listView = (ListView) findViewById(R.id.logsView);
-        logs = new ArrayList<WorkLog>();
-        logsDbAdapter = new LogsDbAdapter(getApplicationContext());
-        int i = 0;
+        logs = getLogsFromDatabase();
 
-        Cursor cursor = logsDbAdapter.getAllLogs();
+        ArrayAdapter<WorkLog> adapter = new ArrayAdapter<WorkLog>(this, android.R.layout.list_content, logs);
+        listView.setAdapter(adapter);
+    }
 
-        while(cursor.moveToNext()){
-            long id = cursor.getLong(0);
-            String date = cursor.getString(1);
-            String hours = cursor.getString(2);
-            String minutes = cursor.getString(3);
-            WorkLog log = new WorkLog(id, date, hours, minutes);
+    public List<WorkLog> getLogsFromDatabase(){
+        List<WorkLog> logs = new ArrayList<WorkLog>();
+        @SuppressLint("Recycle")
+        Cursor c = database.rawQuery("SELECT * FROM logs", null);
+
+        int dateIndex = c.getColumnIndex("date");
+        int hoursIndex = c.getColumnIndex("hours");
+        int minutesIndex = c.getColumnIndex("minutes");
+
+        c.moveToFirst();
+
+        while(!c.isAfterLast()){
+            WorkLog log = new WorkLog(c.getString(dateIndex), c.getString(hoursIndex), c.getString(minutesIndex));
             logs.add(log);
+
+            c.moveToNext();
         }
 
-        LogsAdapter adapter = new LogsAdapter(this, logs);
-        listView.setAdapter(adapter);
+        return logs;
     }
 
     @Override
