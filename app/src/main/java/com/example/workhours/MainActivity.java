@@ -43,14 +43,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity<DocumentReference> extends AppCompatActivity {
 
     private List<WorkLog> logs;
-    private DocumentReference docRef;
+    private com.google.firebase.firestore.DocumentReference docRef;
 
     public static final String DATE_KEY = "date";
     public static final String HOURS_KEY = "hours";
     public static final String MINUTES_KEY = "minutes";
+    public static final String ACTION_KEY = "action";
     public static final String TAG = "DATABASE";
 
     SharedPreferences sharedPreferences;
@@ -81,9 +82,9 @@ public class MainActivity extends AppCompatActivity {
         monthHoursText = findViewById(R.id.hoursInMonth);
 
         //Leave for testing purpose
-        sharedPreferences.edit().putInt("Hours", 0).apply();
+        /*sharedPreferences.edit().putInt("Hours", 0).apply();
         sharedPreferences.edit().putInt("Minutes", 0).apply();
-        sharedPreferences.edit().putInt("DocNum", 0).apply();
+        sharedPreferences.edit().putInt("DocNum", 0).apply();*/
 
         spHours = sharedPreferences.getInt("Hours", 0);
         spMinutes = sharedPreferences.getInt("Minutes", 0);
@@ -120,9 +121,43 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     public void onDeleteHoursButtonClick(View view){
         action = "delete";
-        try{
+        try {
+            sharedPreferences.edit().putString("Doc", "log" + String.valueOf(docNumber)).apply();
             String hours = deleteHours.getText().toString();
             String[] splitedHours = hours.split("\\.");
+
+            String currentDate = getCurrentDate();
+
+            try {
+                WorkLog log = new WorkLog(currentDate, splitedHours[0], splitedHours[1]);
+
+                Map<String, Object> logToSave = new HashMap<String, Object>();
+                logToSave.put(DATE_KEY, log.getDate());
+                logToSave.put(HOURS_KEY, log.getHours());
+                logToSave.put(MINUTES_KEY, log.getMinutes());
+                logToSave.put(ACTION_KEY, action);
+
+                String docName = sharedPreferences.getString("Doc", null);
+                docRef = FirebaseFirestore.getInstance().document("logs/" + docName);
+
+                docRef.set(logToSave).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.i(TAG, "Document has been deleted!");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull @NotNull Exception e) {
+                        Log.i(TAG, "Document has not been deleted!", e);
+                    }
+                });
+
+                docNumber += 1;
+                sharedPreferences.edit().putInt("DocNum", docNumber).apply();
+
+            } catch(Exception e){
+                e.printStackTrace();
+            }
 
             if(Integer.parseInt(splitedHours[1]) < 60){
                 int h = Integer.parseInt(splitedHours[0]);
@@ -163,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint({"CommitPrefEdits", "SetTextI18n"})
     public void onAddHoursButtonClick(View view){
+        action = "add";
         try {
             sharedPreferences.edit().putString("Doc", "log" + String.valueOf(docNumber)).apply();
             String hours = addHours.getText().toString();
@@ -177,6 +213,7 @@ public class MainActivity extends AppCompatActivity {
                 logToSave.put(DATE_KEY, log.getDate());
                 logToSave.put(HOURS_KEY, log.getHours());
                 logToSave.put(MINUTES_KEY, log.getMinutes());
+                logToSave.put(ACTION_KEY, action);
 
                 String docName = sharedPreferences.getString("Doc", null);
                 docRef = FirebaseFirestore.getInstance().document("logs/" + docName);
@@ -194,7 +231,6 @@ public class MainActivity extends AppCompatActivity {
                 });
 
                 docNumber += 1;
-                Log.i("DocNum", String.valueOf(docNumber));
                 sharedPreferences.edit().putInt("DocNum", docNumber).apply();
 
             } catch (Exception e){
@@ -306,7 +342,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.showDetails:
-                Intent showDetailsIntent = new Intent(this, LogActivity.class);
+                Intent showDetailsIntent = new Intent(this, LogsActivity.class);
                 startActivity(showDetailsIntent);
                 break;
             case R.id.mainScreen:
