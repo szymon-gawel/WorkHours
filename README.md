@@ -5,6 +5,7 @@ Current functionality:
 - Adding hours
 - Deleting hours
 - Showing logs (adding and deleting)
+- Calculating salary
 
 In progress:
 - Showing history of months
@@ -12,6 +13,5 @@ In progress:
 Future functionality:
 - Recording hours based on time (start and stop buttons)
 - Showing full monthly raport 
-- Calculating salary
 
 App is still in early stage, please follow the project to see next steps.
