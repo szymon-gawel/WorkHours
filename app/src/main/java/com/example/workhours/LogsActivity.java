@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +35,7 @@ public class LogsActivity extends AppCompatActivity {
 
     private FirebaseFirestore database;
     private ListView logsView;
+    private String android_id;
 
     private static final String TAG = "DATABASE";
 
@@ -47,12 +49,9 @@ public class LogsActivity extends AppCompatActivity {
         database = FirebaseFirestore.getInstance();
         logsView = findViewById(R.id.logsView);
         logs = new ArrayList<String>();
+        android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        /*logs.add("Siema");
-        logs.add("Eniu");
-        logs.add("Krzysiu");*/
-
-        database.collection("logs")
+        database.collection("logs" + android_id)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

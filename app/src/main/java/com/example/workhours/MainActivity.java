@@ -15,6 +15,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
@@ -47,6 +48,7 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
 
     private List<WorkLog> logs;
     private com.google.firebase.firestore.DocumentReference docRef;
+    private String android_id;
 
     public static final String DATE_KEY = "date";
     public static final String HOURS_KEY = "hours";
@@ -240,7 +242,9 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         logToSave.put(ACTION_KEY, action);
 
         String docName = sharedPreferences.getString("Doc", null);
-        docRef = FirebaseFirestore.getInstance().document("logs/" + docName);
+        android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+        Log.i("ANDROIDID", android_id);
+        docRef = FirebaseFirestore.getInstance().document("logs" + android_id + "/" + docName);
 
         docRef.set(logToSave).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
