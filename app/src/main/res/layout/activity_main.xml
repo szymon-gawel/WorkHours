@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="65dp"
         android:background="@drawable/custom_rounded_corners"
         android:onClick="onAddHoursButtonClick"
         android:text="@string/add_hours_button"
@@ -69,7 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/custom_rounded_corners"
         android:onClick="onDeleteHoursButtonClick"
         android:text="@string/delete_hours_button"
@@ -77,13 +77,27 @@
         app:layout_constraintStart_toEndOf="@+id/deleteHoursEditView"
         app:layout_constraintTop_toBottomOf="@+id/addHoursButton" />
 
+    <Button
+        android:id="@+id/deleteHoursButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="58dp"
+        android:background="@drawable/custom_rounded_corners"
+        android:onClick="onCalcButtonClicked"
+        android:text="@string/salary_button"
+        app:backgroundTint="@android:color/darker_gray"
+        app:layout_constraintStart_toEndOf="@+id/hourlyRateEditView"
+        app:layout_constraintTop_toBottomOf="@+id/deleteHoursButton" />
+
     <EditText
         android:id="@+id/addHoursEditView"
         android:layout_width="195dp"
         android:layout_height="45dp"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="65dp"
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
         android:ems="10"
@@ -99,7 +113,7 @@
         android:layout_height="45dp"
         android:layout_marginStart="30dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="12dp"
         android:layout_marginRight="12dp"
         android:ems="10"
@@ -108,5 +122,36 @@
         app:layout_constraintEnd_toStartOf="@+id/deleteHoursButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addHoursButton" />
+
+    <EditText
+        android:id="@+id/hourlyRateEditView"
+        android:layout_width="155dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:ems="10"
+        android:hint="@string/salary_label"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/deleteHoursButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deleteHoursEditView" />
+
+    <TextView
+        android:id="@+id/salaryTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/deleteHoursButton2"
+        app:layout_constraintTop_toBottomOf="@+id/deleteHoursButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

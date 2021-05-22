@@ -57,13 +57,16 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     EditText addHours;
     EditText deleteHours;
+    EditText hourlyRate;
     TextView monthHoursText;
+    TextView salaryTextView;
     int spHours;
     int spMinutes;
     int currentDay;
     int spLastHours;
     int spLastMinutes;
     int docNumber;
+    double salary;
     String action;
     String logDate;
 
@@ -79,7 +82,9 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
 
         addHours = findViewById(R.id.addHoursEditView);
         deleteHours = findViewById(R.id.deleteHoursEditView);
+        hourlyRate = findViewById(R.id.hourlyRateEditView);
         monthHoursText = findViewById(R.id.hoursInMonth);
+        salaryTextView = findViewById(R.id.salaryTextView);
 
         //Leave for testing purpose
         /*sharedPreferences.edit().putInt("Hours", 0).apply();
@@ -129,32 +134,7 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
             String currentDate = getCurrentDate();
 
             try {
-                WorkLog log = new WorkLog(currentDate, splitedHours[0], splitedHours[1]);
-
-                Map<String, Object> logToSave = new HashMap<String, Object>();
-                logToSave.put(DATE_KEY, log.getDate());
-                logToSave.put(HOURS_KEY, log.getHours());
-                logToSave.put(MINUTES_KEY, log.getMinutes());
-                logToSave.put(ACTION_KEY, action);
-
-                String docName = sharedPreferences.getString("Doc", null);
-                docRef = FirebaseFirestore.getInstance().document("logs/" + docName);
-
-                docRef.set(logToSave).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.i(TAG, "Document has been deleted!");
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.i(TAG, "Document has not been deleted!", e);
-                    }
-                });
-
-                docNumber += 1;
-                sharedPreferences.edit().putInt("DocNum", docNumber).apply();
-
+                createLog(currentDate, splitedHours[0], splitedHours[1]);
             } catch(Exception e){
                 e.printStackTrace();
             }
@@ -207,32 +187,7 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
             String currentDate = getCurrentDate();
 
             try {
-                WorkLog log = new WorkLog(currentDate, splitedHours[0], splitedHours[1]);
-
-                Map<String, Object> logToSave = new HashMap<String, Object>();
-                logToSave.put(DATE_KEY, log.getDate());
-                logToSave.put(HOURS_KEY, log.getHours());
-                logToSave.put(MINUTES_KEY, log.getMinutes());
-                logToSave.put(ACTION_KEY, action);
-
-                String docName = sharedPreferences.getString("Doc", null);
-                docRef = FirebaseFirestore.getInstance().document("logs/" + docName);
-
-                docRef.set(logToSave).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.i(TAG, "Document has been saved!");
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.i(TAG, "Document has not been saved!", e);
-                    }
-                });
-
-                docNumber += 1;
-                sharedPreferences.edit().putInt("DocNum", docNumber).apply();
-
+                createLog(currentDate, splitedHours[0], splitedHours[1]);
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -273,6 +228,41 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
             showFormatDialog();
         }
 
+    }
+
+    public void createLog(String date, String hours, String minutes){
+        WorkLog log = new WorkLog(date, hours, minutes);
+
+        Map<String, Object> logToSave = new HashMap<String, Object>();
+        logToSave.put(DATE_KEY, log.getDate());
+        logToSave.put(HOURS_KEY, log.getHours());
+        logToSave.put(MINUTES_KEY, log.getMinutes());
+        logToSave.put(ACTION_KEY, action);
+
+        String docName = sharedPreferences.getString("Doc", null);
+        docRef = FirebaseFirestore.getInstance().document("logs/" + docName);
+
+        docRef.set(logToSave).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.i(TAG, "Success");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+                Log.i(TAG, "Failed!", e);
+            }
+        });
+
+        docNumber += 1;
+        sharedPreferences.edit().putInt("DocNum", docNumber).apply();
+    }
+
+    public void onCalcButtonClicked(View view){
+        String hourlyRateString = hourlyRate.getText().toString();
+
+        salary = Double.parseDouble(hourlyRateString) * (spHours + spMinutes/60);
+        salaryTextView.setText(String.valueOf(salary));
     }
 
     public String getCurrentDate(){

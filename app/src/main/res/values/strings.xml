@@ -8,4 +8,6 @@
     <string name="add_hours_button">Add hours</string>
     <string name="add_hours_hint">4.15 (hours.minutes)</string>
     <string name="delete_hours_button">Delete hours</string>
+    <string name="salary_label">Hourly rate (zl.gr)</string>
+    <string name="salary_button">Calc</string>
 </resources>
