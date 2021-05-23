@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -48,14 +49,16 @@ public class SalaryActivity extends AppCompatActivity {
 
         String salarySP = preferences.getString("Salary", "0");
 
-        salaryTextView.setText(salarySP);
+        salaryTextView.setText(salarySP + " " + currency);
     }
 
     public void onCalculateButtonClick(View view){
         try {
             String hourlyRateString = hourlyRate.getText().toString();
 
-            salary = Double.parseDouble(hourlyRateString) * (spHours + spMinutes/60);
+            Double minutesDevided = new Double(spMinutes);
+
+            salary = Double.parseDouble(hourlyRateString) * (spHours + (minutesDevided/60));
             salaryTextView.setText(String.valueOf(new DecimalFormat("##.##").format(salary)) + " " + currency);
             editor.putString("Salary", String.valueOf(salary)).apply();
             editor.commit();
