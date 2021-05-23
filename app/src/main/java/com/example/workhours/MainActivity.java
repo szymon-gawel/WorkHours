@@ -90,16 +90,7 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         monthHoursText = findViewById(R.id.hoursInMonth);
 
         //Leave for testing purpose
-        /*editor.putInt("Hours", 0).apply();
-        editor.commit();
-        editor.putInt("Minutes", 0).apply();
-        editor.commit();
-        editor.putInt("DocNum", 0).apply();
-        editor.commit();
-        editor.putString("Currency", "").apply();
-        editor.commit();
-        editor.putString("Salary", "0");
-        editor.commit();*/
+        //resetSharedPreferences();
 
         spHours = sharedPreferences.getInt("Hours", 0);
         spMinutes = sharedPreferences.getInt("Minutes", 0);
@@ -323,6 +314,19 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
                     }
                 });
         alertDialog.show();
+    }
+
+    public void resetSharedPreferences(){
+        editor.putInt("Hours", 0).apply();
+        editor.commit();
+        editor.putInt("Minutes", 0).apply();
+        editor.commit();
+        editor.putInt("DocNum", 0).apply();
+        editor.commit();
+        editor.putString("Currency", "").apply();
+        editor.commit();
+        editor.putString("Salary", "0");
+        editor.commit();
     }
 
     @Override
