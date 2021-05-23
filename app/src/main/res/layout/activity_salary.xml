@@ -4,23 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".SalaryActivity">
 
     <TextView
         android:id="@+id/monthHoursView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="168dp"
-        android:layout_marginLeft="168dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="526dp"
-        android:text="@string/month_hours_text"
+        android:text="@string/salary_amount"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hoursInMonth" />
+        app:layout_constraintTop_toBottomOf="@+id/salaryAmountTextView" />
 
     <TextView
-        android:id="@+id/hoursInMonth"
+        android:id="@+id/salaryAmountTextView"
         android:layout_width="0dp"
         android:layout_height="119dp"
         android:layout_marginTop="50dp"
@@ -37,48 +36,44 @@
         android:id="@+id/addHoursText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="147dp"
-        android:layout_marginLeft="147dp"
-        android:layout_marginTop="144dp"
-        android:layout_marginEnd="147dp"
-        android:layout_marginRight="147dp"
-        android:text="@string/add_hours"
+        android:layout_marginTop="100dp"
+        android:text="@string/salary_text"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hoursInMonth" />
+        app:layout_constraintTop_toBottomOf="@+id/salaryAmountTextView" />
 
     <Button
-        android:id="@+id/addHoursButton"
+        android:id="@+id/applyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="65dp"
         android:background="@drawable/custom_rounded_corners"
-        android:onClick="onAddHoursButtonClick"
-        android:text="@string/add_hours_button"
+        android:onClick="onApplyButtonClick"
+        android:text="@string/currency_button"
         app:backgroundTint="@android:color/darker_gray"
-        app:layout_constraintStart_toEndOf="@+id/addHoursEditView"
+        app:layout_constraintStart_toEndOf="@+id/currencyEditText"
         app:layout_constraintTop_toBottomOf="@+id/addHoursText" />
 
     <Button
-        android:id="@+id/deleteHoursButton"
+        android:id="@+id/calculateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="60dp"
         android:background="@drawable/custom_rounded_corners"
-        android:onClick="onDeleteHoursButtonClick"
-        android:text="@string/delete_hours_button"
+        android:onClick="onCalculateButtonClick"
+        android:text="@string/salary_calc_button"
         app:backgroundTint="@android:color/darker_gray"
-        app:layout_constraintStart_toEndOf="@+id/deleteHoursEditView"
-        app:layout_constraintTop_toBottomOf="@+id/addHoursButton" />
+        app:layout_constraintStart_toEndOf="@+id/hourlyRate"
+        app:layout_constraintTop_toBottomOf="@+id/applyButton" />
 
     <EditText
-        android:id="@+id/addHoursEditView"
+        android:id="@+id/currencyEditText"
         android:layout_width="195dp"
         android:layout_height="45dp"
         android:layout_marginStart="30dp"
@@ -87,14 +82,14 @@
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
         android:ems="10"
-        android:hint="@string/add_hours_hint"
+        android:hint="@string/currency_hint"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toStartOf="@+id/addHoursButton"
+        app:layout_constraintEnd_toStartOf="@+id/applyButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addHoursText" />
 
     <EditText
-        android:id="@+id/deleteHoursEditView"
+        android:id="@+id/hourlyRate"
         android:layout_width="195dp"
         android:layout_height="45dp"
         android:layout_marginStart="30dp"
@@ -103,10 +98,21 @@
         android:layout_marginEnd="12dp"
         android:layout_marginRight="12dp"
         android:ems="10"
-        android:hint="@string/add_hours_hint"
+        android:hint="@string/salary_label"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toStartOf="@+id/deleteHoursButton"
+        app:layout_constraintEnd_toStartOf="@+id/calculateButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addHoursButton" />
+        app:layout_constraintTop_toBottomOf="@+id/applyButton" />
+
+    <TextView
+        android:id="@+id/salaryTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calculateButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

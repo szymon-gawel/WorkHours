@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:title="@string/show_details"
+        android:title="@string/main_screen_menu"
+        android:id="@+id/mainScreen"
+    />
+    <item
+        android:title="@string/show_details_menu"
         android:id="@+id/showDetails"
     />
     <item
-        android:title="@string/main_screen"
-        android:id="@+id/mainScreen"
-        />
+        android:title="@string/salary_menu"
+        android:id="@+id/salaryScreen"
+    />
 
 </menu>

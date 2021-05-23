@@ -59,18 +59,17 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
     public static final String TAG = "DATABASE";
 
     SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
     EditText addHours;
     EditText deleteHours;
     EditText hourlyRate;
     TextView monthHoursText;
-    TextView salaryTextView;
     int spHours;
     int spMinutes;
     int currentDay;
     int spLastHours;
     int spLastMinutes;
     int docNumber;
-    double salary;
     String action;
     String logDate;
 
@@ -83,18 +82,24 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         sharedPreferences = getSharedPreferences("com.example.workhours", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
         addHours = findViewById(R.id.addHoursEditView);
         deleteHours = findViewById(R.id.deleteHoursEditView);
-        hourlyRate = findViewById(R.id.hourlyRateEditView);
         monthHoursText = findViewById(R.id.hoursInMonth);
-        salaryTextView = findViewById(R.id.salaryTextView);
 
         //Leave for testing purpose
-        /*sharedPreferences.edit().putInt("Hours", 0).apply();
-        sharedPreferences.edit().putInt("Minutes", 0).apply();
-        sharedPreferences.edit().putInt("DocNum", 0).apply();*/
+        /*editor.putInt("Hours", 0).apply();
+        editor.commit();
+        editor.putInt("Minutes", 0).apply();
+        editor.commit();
+        editor.putInt("DocNum", 0).apply();
+        editor.commit();
+        editor.putString("Currency", "").apply();
+        editor.commit();
+        editor.putString("Salary", "0");
+        editor.commit();*/
 
         spHours = sharedPreferences.getInt("Hours", 0);
         spMinutes = sharedPreferences.getInt("Minutes", 0);
@@ -132,7 +137,8 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
     public void onDeleteHoursButtonClick(View view){
         action = "delete";
         try {
-            sharedPreferences.edit().putString("Doc", "log" + String.valueOf(docNumber)).apply();
+            editor.putString("Doc", "log" + String.valueOf(docNumber)).apply();
+            editor.commit();
             String hours = deleteHours.getText().toString();
             String[] splitedHours = hours.split("\\.");
 
@@ -157,8 +163,8 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
                 }
 
                 if(spHours >= 0 && spMinutes >= 0){
-                    sharedPreferences.edit().putInt("Hours", spHours).apply();
-                    sharedPreferences.edit().putInt("Minutes", spMinutes).apply();
+                    editor.putInt("Hours", spHours).apply();
+                    editor.putInt("Minutes", spMinutes).apply();
 
                     int hoursToDisplay = sharedPreferences.getInt("Hours", 0);
                     int minutesToDisplay = sharedPreferences.getInt("Minutes", 0);
@@ -185,7 +191,8 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
     public void onAddHoursButtonClick(View view){
         action = "add";
         try {
-            sharedPreferences.edit().putString("Doc", "log" + String.valueOf(docNumber)).apply();
+            editor.putString("Doc", "log" + String.valueOf(docNumber)).apply();
+            editor.commit();
             String hours = addHours.getText().toString();
             String[] splitedHours = hours.split("\\.");
 
@@ -214,8 +221,10 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
                     spMinutes -= 60;
                 }
 
-                sharedPreferences.edit().putInt("Hours", spHours).apply();
-                sharedPreferences.edit().putInt("Minutes", spMinutes).apply();
+                editor.putInt("Hours", spHours).apply();
+                editor.commit();
+                editor.putInt("Minutes", spMinutes).apply();
+                editor.commit();
 
                 int hoursToDisplay = sharedPreferences.getInt("Hours", 0);
                 int minutesToDisplay = sharedPreferences.getInt("Minutes", 0);
@@ -260,14 +269,8 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         });
 
         docNumber += 1;
-        sharedPreferences.edit().putInt("DocNum", docNumber).apply();
-    }
-
-    public void onCalcButtonClicked(View view){
-        String hourlyRateString = hourlyRate.getText().toString();
-
-        salary = Double.parseDouble(hourlyRateString) * (spHours + spMinutes/60);
-        salaryTextView.setText(String.valueOf(salary));
+        editor.putInt("DocNum", docNumber).apply();
+        editor.commit();
     }
 
     public String getCurrentDate(){
@@ -343,6 +346,10 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
             case R.id.mainScreen:
                 Intent mainActivityIntent = new Intent(this, MainActivity.class);
                 startActivity(mainActivityIntent);
+                break;
+            case R.id.salaryScreen:
+                Intent salaryIntent = new Intent(this, SalaryActivity.class);
+                startActivity(salaryIntent);
                 break;
         }
 

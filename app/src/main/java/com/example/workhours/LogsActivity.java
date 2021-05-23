@@ -121,6 +121,10 @@ public class LogsActivity extends AppCompatActivity {
                 Intent mainActivityIntent = new Intent(this, MainActivity.class);
                 startActivity(mainActivityIntent);
                 break;
+            case R.id.salaryScreen:
+                Intent salaryIntent = new Intent(this, SalaryActivity.class);
+                startActivity(salaryIntent);
+                break;
         }
 
         return true;

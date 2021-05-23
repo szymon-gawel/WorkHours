@@ -1,13 +1,21 @@
 <resources>
     <string name="app_name">WorkHours</string>
     <string name="add_hours">Manage working hours</string>
-    <string name="show_details">Show working details</string>
-    <string name="main_screen">Hours counter</string>
+    <!-- Menu -->
+    <string name="show_details_menu">Show working details</string>
+    <string name="main_screen_menu">Hours counter</string>
+    <string name="salary_menu">Salary calculator</string>
+
     <string name="month_hours_text">Last month</string>
     <string name="week_hours_text">Last week</string>
     <string name="add_hours_button">Add hours</string>
     <string name="add_hours_hint">4.15 (hours.minutes)</string>
     <string name="delete_hours_button">Delete hours</string>
     <string name="salary_label">Hourly rate (zl.gr)</string>
-    <string name="salary_button">Calc</string>
+    <string name="salary_calc_button">Calculate</string>
+    <string name="salary_amount">Salary</string>
+    <string name="currency_button">Apply</string>
+    <string name="currency_hint">usd, zl, eur etc.</string>
+    <string name="salary_text">Manage salary options</string>
+
 </resources>

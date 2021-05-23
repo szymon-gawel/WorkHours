@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WorkHours">
-        <activity android:name=".LogsActivity"></activity>
+        <activity android:name=".SalaryActivity"></activity>
+        <activity android:name=".LogsActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
