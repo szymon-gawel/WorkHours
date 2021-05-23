@@ -58,6 +58,7 @@ public class LogsActivity extends AppCompatActivity {
         android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
         database.collection("logs" + android_id)
+                .orderBy("date")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

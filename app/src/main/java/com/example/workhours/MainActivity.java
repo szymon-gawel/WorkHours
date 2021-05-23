@@ -155,7 +155,9 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
 
                 if(spHours >= 0 && spMinutes >= 0){
                     editor.putInt("Hours", spHours).apply();
+                    editor.commit();
                     editor.putInt("Minutes", spMinutes).apply();
+                    editor.commit();
 
                     int hoursToDisplay = sharedPreferences.getInt("Hours", 0);
                     int minutesToDisplay = sharedPreferences.getInt("Minutes", 0);
