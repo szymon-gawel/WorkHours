@@ -13,8 +13,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -36,6 +38,8 @@ public class LogsActivity extends AppCompatActivity {
     private FirebaseFirestore database;
     private ListView logsView;
     private String android_id;
+    private ProgressBar loadingBar;
+    boolean isLoaded;
 
     private static final String TAG = "DATABASE";
 
@@ -48,6 +52,8 @@ public class LogsActivity extends AppCompatActivity {
 
         database = FirebaseFirestore.getInstance();
         logsView = findViewById(R.id.logsView);
+        loadingBar = findViewById(R.id.loadingBar);
+        isLoaded = false;
         logs = new ArrayList<String>();
         android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
@@ -72,11 +78,14 @@ public class LogsActivity extends AppCompatActivity {
                             }
                             ArrayAdapter<String> adapter = new ArrayAdapter<String>(LogsActivity.this, android.R.layout.simple_list_item_1, logs);
                             logsView.setAdapter(adapter);
+                            loadingBar.setVisibility(View.INVISIBLE);
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
                         }
                     }
                 });
+
+
     }
 
     public String createLogText(String data, String hours, String minutes, String action){

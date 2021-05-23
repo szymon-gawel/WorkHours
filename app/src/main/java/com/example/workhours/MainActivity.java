@@ -48,12 +48,14 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
 
     private List<WorkLog> logs;
     private com.google.firebase.firestore.DocumentReference docRef;
+    private com.google.firebase.firestore.DocumentReference secDocRef;
     private String android_id;
 
     public static final String DATE_KEY = "date";
     public static final String HOURS_KEY = "hours";
     public static final String MINUTES_KEY = "minutes";
     public static final String ACTION_KEY = "action";
+    public static final String SEC_ID_KEY = "id";
     public static final String TAG = "DATABASE";
 
     SharedPreferences sharedPreferences;
@@ -81,6 +83,7 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         sharedPreferences = getSharedPreferences("com.example.workhours", MODE_PRIVATE);
+        android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
         addHours = findViewById(R.id.addHoursEditView);
         deleteHours = findViewById(R.id.deleteHoursEditView);
@@ -242,8 +245,6 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         logToSave.put(ACTION_KEY, action);
 
         String docName = sharedPreferences.getString("Doc", null);
-        android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-        Log.i("ANDROIDID", android_id);
         docRef = FirebaseFirestore.getInstance().document("logs" + android_id + "/" + docName);
 
         docRef.set(logToSave).addOnSuccessListener(new OnSuccessListener<Void>() {
