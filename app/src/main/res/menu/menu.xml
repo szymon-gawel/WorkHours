@@ -12,5 +12,9 @@
         android:title="@string/salary_menu"
         android:id="@+id/salaryScreen"
     />
+    <item
+        android:title="@string/info_menu"
+        android:id="@+id/infoScreen"
+    />
 
 </menu>

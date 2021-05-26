@@ -5,6 +5,7 @@
     <string name="show_details_menu">Show working details</string>
     <string name="main_screen_menu">Hours counter</string>
     <string name="salary_menu">Salary calculator</string>
+    <string name="info_menu">Informations from creator</string>
 
     <!-- Buttons -->
     <string name="add_hours_button">Add hours</string>
@@ -22,5 +23,13 @@
     <string name="salary_amount">Salary</string>
     <string name="salary_text">Manage salary options</string>
     <string name="add_hours">Manage working hours</string>
+    
+    <!-- Info texts -->
+    <string name="info_header">Information</string>
+    <string name="info_content">Thank you for installing my app! If you find any problems with it, do not hesitate to email me (contact info below).  </string>
+    <string name="info_support">If you want to support my work, you can do it on Patronite</string>
+    <string name="info_email">szymongawel123@gmail.com</string>
+    <string name="info_contact_text">Contact</string>
+    <string name="info_patronite_link">Link soon</string>
 
 </resources>

@@ -25,6 +25,7 @@ public class SalaryActivity extends AppCompatActivity {
     EditText currencyEditText;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
+    Currency[] currencies;
 
     int spHours;
     int spMinutes;
@@ -42,6 +43,8 @@ public class SalaryActivity extends AppCompatActivity {
         spHours = preferences.getInt("Hours", 0);
         spMinutes = preferences.getInt("Minutes", 0);
         currency = preferences.getString("Currency", "");
+
+        currencies = Currency.values();
 
         hourlyRate = findViewById(R.id.hourlyRate);
         salaryTextView = findViewById(R.id.salaryAmountTextView);
@@ -69,16 +72,43 @@ public class SalaryActivity extends AppCompatActivity {
     }
 
     public void onApplyButtonClick(View view){
-        String currencyString = currencyEditText.getText().toString();
-        editor.putString("Currency", currencyString).apply();
-        editor.commit();
-        currency = currencyString;
+        String currencyString = currencyEditText.getText().toString().toLowerCase();
+        boolean isValid = false;
+
+        for (Currency currency : currencies){
+            if(currencyString.equals(currency.toString().toLowerCase())){
+                isValid = true;
+                break;
+            }
+        }
+
+        if(isValid){
+            editor.putString("Currency", currencyString).apply();
+            editor.commit();
+            currency = currencyString;
+        } else {
+            showInvalidInputDialog();
+        }
+
     }
 
     public void showEmptyErrorDialog(){
         AlertDialog alertDialog = new AlertDialog.Builder(SalaryActivity.this).create();
         alertDialog.setTitle("Warning");
         alertDialog.setMessage("Please, type your hourly rate correctly");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
+
+    public void showInvalidInputDialog(){
+        AlertDialog alertDialog = new AlertDialog.Builder(SalaryActivity.this).create();
+        alertDialog.setTitle("Warning");
+        alertDialog.setMessage("You used banned word, please type valid currency");
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -113,6 +143,10 @@ public class SalaryActivity extends AppCompatActivity {
             case R.id.salaryScreen:
                 Intent salaryIntent = new Intent(this, SalaryActivity.class);
                 startActivity(salaryIntent);
+                break;
+            case R.id.infoScreen:
+                Intent infoScreen = new Intent(this, InfoActivity.class);
+                startActivity(infoScreen);
                 break;
         }
 
