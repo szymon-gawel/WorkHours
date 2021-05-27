@@ -43,6 +43,7 @@ public class SettingsActivity extends AppCompatActivity {
     String android_id;
     String TAG = "DATABASE";
 
+    @SuppressLint("HardwareIds")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
