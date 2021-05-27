@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -72,6 +73,7 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
     int docNumber;
     String action;
     String logDate;
+    String theme;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -95,6 +97,13 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         spHours = sharedPreferences.getInt("Hours", 0);
         spMinutes = sharedPreferences.getInt("Minutes", 0);
         docNumber = sharedPreferences.getInt("DocNum", 0);
+        theme = sharedPreferences.getString("Theme", "Light");
+
+        if(theme.equals("Dark")){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
 
         Calendar cal = Calendar.getInstance();
         currentDay = cal.get(Calendar.DAY_OF_MONTH);
@@ -396,6 +405,10 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
             case R.id.salaryScreen:
                 Intent salaryIntent = new Intent(this, SalaryActivity.class);
                 startActivity(salaryIntent);
+                break;
+            case R.id.settingsScreen:
+                Intent settingsScreen = new Intent(this, SettingsActivity.class);
+                startActivity(settingsScreen);
                 break;
             case R.id.infoScreen:
                 Intent infoScreen = new Intent(this, InfoActivity.class);

@@ -13,6 +13,10 @@
         android:id="@+id/salaryScreen"
     />
     <item
+        android:title="@string/info_setting"
+        android:id="@+id/settingsScreen"
+    />
+    <item
         android:title="@string/info_menu"
         android:id="@+id/infoScreen"
     />

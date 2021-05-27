@@ -6,6 +6,7 @@
     <string name="main_screen_menu">Hours counter</string>
     <string name="salary_menu">Salary calculator</string>
     <string name="info_menu">Informations from creator</string>
+    <string name="info_setting">Settings</string>
 
     <!-- Buttons -->
     <string name="add_hours_button">Add hours</string>
@@ -23,7 +24,7 @@
     <string name="salary_amount">Salary</string>
     <string name="salary_text">Manage salary options</string>
     <string name="add_hours">Manage working hours</string>
-    
+
     <!-- Info texts -->
     <string name="info_header">Information</string>
     <string name="info_content">Thank you for installing my app! If you find any problems with it, do not hesitate to email me (contact info below).  </string>
@@ -31,5 +32,10 @@
     <string name="info_email">szymongawel123@gmail.com</string>
     <string name="info_contact_text">Contact</string>
     <string name="info_patronite_link">Link soon</string>
+
+    <!-- Settings texts -->
+    <string name="settings_header">Settings</string>
+    <string name="settings_light">Light</string>
+    <string name="settings_dark">Dark</string>
 
 </resources>

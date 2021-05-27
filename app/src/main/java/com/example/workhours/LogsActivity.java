@@ -126,6 +126,10 @@ public class LogsActivity extends AppCompatActivity {
                 Intent salaryIntent = new Intent(this, SalaryActivity.class);
                 startActivity(salaryIntent);
                 break;
+            case R.id.settingsScreen:
+                Intent settingsScreen = new Intent(this, SettingsActivity.class);
+                startActivity(settingsScreen);
+                break;
             case R.id.infoScreen:
                 Intent infoScreen = new Intent(this, InfoActivity.class);
                 startActivity(infoScreen);

@@ -1,21 +1,57 @@
 package com.example.workhours;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ShareActionProvider;
+import android.widget.Switch;
 
-public class InfoActivity extends AppCompatActivity {
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+
+public class SettingsActivity extends AppCompatActivity {
+
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    Switch themeSwitch;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
+
+    String theme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_info);
+        setContentView(R.layout.activity_settings);
 
+        preferences = getSharedPreferences("com.example.workhours", MODE_PRIVATE);
+        editor = preferences.edit();
+
+        theme = preferences.getString("Theme", "Light");
+
+        themeSwitch = findViewById(R.id.themeSwitch);
+
+        if(theme.equals("Light")){
+            themeSwitch.setChecked(false);
+        } else {
+            themeSwitch.setChecked(true);
+        }
+
+        themeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                editor.putString("Theme", "Dark").apply();
+                editor.commit();
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                editor.putString("Theme", "Light").apply();
+                editor.commit();
+            }
+        });
     }
 
     @Override
