@@ -20,7 +20,7 @@ import java.text.DecimalFormat;
 
 public class SalaryActivity extends AppCompatActivity {
 
-    EditText hourlyRate;
+    EditText hourlyRateText;
     TextView salaryTextView;
     EditText currencyEditText;
     SharedPreferences preferences;
@@ -30,7 +30,10 @@ public class SalaryActivity extends AppCompatActivity {
     int spHours;
     int spMinutes;
     double salary;
+    String hourlyRate;
     String currency;
+    String salarySP;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,24 +46,31 @@ public class SalaryActivity extends AppCompatActivity {
         spHours = preferences.getInt("Hours", 0);
         spMinutes = preferences.getInt("Minutes", 0);
         currency = preferences.getString("Currency", "");
+        hourlyRate = preferences.getString("HourlyRate", "0");
+
+        Double minutesDevided = new Double(spMinutes);
+        salary = Double.parseDouble(hourlyRate) * (spHours + (minutesDevided/60));
+        editor.putString("Salary", String.valueOf(salary)).apply();
+        editor.commit();
 
         currencies = Currency.values();
 
-        hourlyRate = findViewById(R.id.hourlyRate);
+        hourlyRateText = findViewById(R.id.hourlyRate);
         salaryTextView = findViewById(R.id.salaryAmountTextView);
         currencyEditText = findViewById(R.id.currencyEditText);
 
-        String salarySP = preferences.getString("Salary", "0");
+        salarySP = preferences.getString("Salary", "0");
 
         salaryTextView.setText(salarySP + " " + currency);
     }
 
     public void onCalculateButtonClick(View view){
         try {
-            String hourlyRateString = hourlyRate.getText().toString();
+            String hourlyRateString = hourlyRateText.getText().toString();
+            editor.putString("HourlyRate", hourlyRateString).apply();
+            editor.commit();
 
             Double minutesDevided = new Double(spMinutes);
-
             salary = Double.parseDouble(hourlyRateString) * (spHours + (minutesDevided/60));
             salaryTextView.setText(String.valueOf(new DecimalFormat("##.##").format(salary)) + " " + currency);
             editor.putString("Salary", String.valueOf(salary)).apply();
@@ -86,6 +96,7 @@ public class SalaryActivity extends AppCompatActivity {
             editor.putString("Currency", currencyString).apply();
             editor.commit();
             currency = currencyString;
+            salaryTextView.setText(salarySP + " " + currency);
         } else {
             showInvalidInputDialog();
         }
