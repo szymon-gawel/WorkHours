@@ -133,6 +133,14 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
             String hours = deleteHours.getText().toString();
             String[] splitedHours = hours.split("\\.");
 
+            if(splitedHours.length == 1){
+                String[] newSplittedHours = new String[2];
+                newSplittedHours[0] = splitedHours[0];
+                newSplittedHours[1] = "00";
+
+                splitedHours = newSplittedHours;
+            }
+
             String currentDate = getCurrentDate();
 
             try {
@@ -145,19 +153,41 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
                 int h = Integer.parseInt(splitedHours[0]);
                 int m = Integer.parseInt(splitedHours[1]);
 
-                spHours -= h;
-                spMinutes -= m;
+                if(h <= spHours){
+                    if(h == spHours){
+                        if(m <= spMinutes){
+                            spHours -= h;
+                            spMinutes -= m;
+                        } else {
+                            showNegativeNumberDialog();
+                        }
+                    } else {
+                        spHours -= h;
+                        spMinutes -= m;
+                    }
+                } else {
+                    showNegativeNumberDialog();
+                }
+
+                Log.i("spValues - hours", String.valueOf(spHours));
+                Log.i("spValues - minutes", String.valueOf(spMinutes));
 
                 if(spMinutes < 0){
                     spHours -= 1;
                     spMinutes += 60;
                 }
 
+                Log.i("spValues - hours", String.valueOf(spHours));
+                Log.i("spValues - minutes", String.valueOf(spMinutes));
+
                 if(spHours >= 0 && spMinutes >= 0){
                     editor.putInt("Hours", spHours).apply();
                     editor.commit();
                     editor.putInt("Minutes", spMinutes).apply();
                     editor.commit();
+
+                    Log.i("spValues - hours", String.valueOf(spHours));
+                    Log.i("spValues - minutes", String.valueOf(spMinutes));
 
                     int hoursToDisplay = sharedPreferences.getInt("Hours", 0);
                     int minutesToDisplay = sharedPreferences.getInt("Minutes", 0);
@@ -188,6 +218,16 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
             editor.commit();
             String hours = addHours.getText().toString();
             String[] splitedHours = hours.split("\\.");
+            
+            Log.i("Length", String.valueOf(splitedHours.length));
+
+            if(splitedHours.length == 1){
+                String[] newSplittedHours = new String[2];
+                newSplittedHours[0] = splitedHours[0];
+                newSplittedHours[1] = "00";
+
+                splitedHours = newSplittedHours;
+            }
 
             String currentDate = getCurrentDate();
 
