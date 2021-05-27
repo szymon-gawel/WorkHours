@@ -178,25 +178,16 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
                     showNegativeNumberDialog();
                 }
 
-                Log.i("spValues - hours", String.valueOf(spHours));
-                Log.i("spValues - minutes", String.valueOf(spMinutes));
-
                 if(spMinutes < 0){
                     spHours -= 1;
                     spMinutes += 60;
                 }
-
-                Log.i("spValues - hours", String.valueOf(spHours));
-                Log.i("spValues - minutes", String.valueOf(spMinutes));
 
                 if(spHours >= 0 && spMinutes >= 0){
                     editor.putInt("Hours", spHours).apply();
                     editor.commit();
                     editor.putInt("Minutes", spMinutes).apply();
                     editor.commit();
-
-                    Log.i("spValues - hours", String.valueOf(spHours));
-                    Log.i("spValues - minutes", String.valueOf(spMinutes));
 
                     int hoursToDisplay = sharedPreferences.getInt("Hours", 0);
                     int minutesToDisplay = sharedPreferences.getInt("Minutes", 0);
@@ -227,8 +218,6 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
             editor.commit();
             String hours = addHours.getText().toString();
             String[] splitedHours = hours.split("\\.");
-            
-            Log.i("Length", String.valueOf(splitedHours.length));
 
             if(splitedHours.length == 1){
                 String[] newSplittedHours = new String[2];
@@ -239,14 +228,6 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
             }
 
             String currentDate = getCurrentDate();
-
-            try {
-                createLog(currentDate, splitedHours[0], splitedHours[1]);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-
-
 
             if(Integer.parseInt(splitedHours[1]) < 60){
                 int h = Integer.parseInt(splitedHours[0]);
@@ -275,6 +256,12 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
                     monthHoursText.setText(hoursToDisplay + ".0" + minutesToDisplay);
                 } else {
                     monthHoursText.setText(hoursToDisplay + "." + minutesToDisplay);
+                }
+
+                try {
+                    createLog(currentDate, splitedHours[0], splitedHours[1]);
+                } catch (Exception e){
+                    e.printStackTrace();
                 }
             } else {
                 showErrorMinutesDialog();
@@ -376,7 +363,7 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         editor.commit();
         editor.putString("Currency", "").apply();
         editor.commit();
-        editor.putString("Salary", "0");
+        editor.putString("Salary", "0").apply();
         editor.commit();
     }
 

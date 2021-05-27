@@ -13,6 +13,8 @@
     <string name="delete_hours_button">Delete hours</string>
     <string name="salary_calc_button">Calculate</string>
     <string name="currency_button">Apply</string>
+    <string name="settings_reset_button">Reset</string>
+    <string name="settings_delete_logs_button">Delete logs</string>
 
     <!-- Hints -->
     <string name="add_hours_hint">4.15 (hours.minutes)</string>
@@ -37,5 +39,8 @@
     <string name="settings_header">Settings</string>
     <string name="settings_light">Light</string>
     <string name="settings_dark">Dark</string>
+    <string name="settings_change_theme">Change theme</string>
+    <string name="settings_reset_text">Reset values</string>
+    <string name="settings_delete_logs">Delete logs</string>
 
 </resources>
