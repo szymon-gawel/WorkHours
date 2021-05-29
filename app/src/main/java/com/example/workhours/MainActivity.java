@@ -7,17 +7,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,21 +22,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.MonthDay;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,7 +54,11 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
     EditText addHours;
     EditText deleteHours;
     EditText hourlyRate;
+    Button addButton;
+    Button deleteButton;
     TextView monthHoursText;
+    TextView manageHoursOptions;
+    TextView hoursLabel;
     int spHours;
     int spMinutes;
     int currentDay;
@@ -74,7 +68,7 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
     String action;
     String logDate;
     String theme;
-
+    String lang;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
@@ -90,6 +84,10 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         addHours = findViewById(R.id.addHoursEditView);
         deleteHours = findViewById(R.id.deleteHoursEditView);
         monthHoursText = findViewById(R.id.hoursInMonth);
+        addButton = findViewById(R.id.addHoursButton);
+        deleteButton = findViewById(R.id.deleteHoursButton);
+        manageHoursOptions = findViewById(R.id.addHoursText);
+        hoursLabel = findViewById(R.id.salaryLabel);
 
         //Leave for testing purpose
         //resetSharedPreferences();
@@ -98,6 +96,9 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         spMinutes = sharedPreferences.getInt("Minutes", 0);
         docNumber = sharedPreferences.getInt("DocNum", 0);
         theme = sharedPreferences.getString("Theme", "Light");
+        lang = sharedPreferences.getString("Language", "eng");
+
+        setLanguage();
 
         if(theme.equals("Dark")){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -317,40 +318,73 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
     
     public void showFormatDialog(){
         AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-        alertDialog.setTitle("Warning");
-        alertDialog.setMessage("Use shown format");
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+        if(lang.equals("pl")){
+            alertDialog.setTitle("Uwaga");
+            alertDialog.setMessage("Użyj wskazanego formatu");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+        } else {
+            alertDialog.setTitle("Warning");
+            alertDialog.setMessage("Use shown format");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+        }
         alertDialog.show();
     }
 
     public void showNegativeNumberDialog(){
         AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-        alertDialog.setTitle("Warning");
-        alertDialog.setMessage("Working time below 0 is not possible");
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+        if(lang.equals("pl")){
+            alertDialog.setTitle("Uwaga");
+            alertDialog.setMessage("Czas pracy poniżej zera jest niemożliwy");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+        } else {
+            alertDialog.setTitle("Warning");
+            alertDialog.setMessage("Working time below 0 is not possible");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+        }
         alertDialog.show();
     }
 
     public void showErrorMinutesDialog(){
         AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-        alertDialog.setTitle("Warning");
-        alertDialog.setMessage("Please, use range of minutes between 0-59");
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+        if(lang.equals("pl")){
+            alertDialog.setTitle("Uwaga");
+            alertDialog.setMessage("Proszę użyć liczby minut z przedziału 0-59");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+        } else {
+            alertDialog.setTitle("Warning");
+            alertDialog.setMessage("Please, use range of minutes between 0-59");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+        }
         alertDialog.show();
     }
 
@@ -365,6 +399,27 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         editor.commit();
         editor.putString("Salary", "0").apply();
         editor.commit();
+    }
+
+    public void setLanguage(){
+        switch(lang){
+            case "pl":
+                addButton.setText("Dodaj godziny");
+                deleteButton.setText("Usuń godziny");
+                manageHoursOptions.setText("Zarządzaj godzinami");
+                addHours.setHint("4.15 (godz.min)");
+                deleteHours.setHint("4.15 (godz.min)");
+                hoursLabel.setText("Obecny miesiąc");
+                break;
+            case "eng":
+                addButton.setText("@string/add_hours_button");
+                deleteButton.setText("Delete hours");
+                manageHoursOptions.setText("Manage hours");
+                addHours.setHint("4.15 (hours.minutes)");
+                deleteHours.setHint("4.15 (hours.minutes)");
+                hoursLabel.setText("This month");
+                break;
+        }
     }
 
     @Override
@@ -402,7 +457,6 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
                 startActivity(infoScreen);
                 break;
         }
-
         return true;
     }
 }

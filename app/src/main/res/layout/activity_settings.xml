@@ -7,7 +7,7 @@
     tools:context=".SettingsActivity">
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/settingsTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -25,11 +25,11 @@
         android:layout_marginTop="77dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7"
+        app:layout_constraintTop_toBottomOf="@+id/settingsTextView"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/lightTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="77dp"
@@ -38,10 +38,10 @@
         android:text="@string/settings_light"
         android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/themeSwitch"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintTop_toBottomOf="@+id/settingsTextView" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/darkTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -50,10 +50,10 @@
         android:text="@string/settings_dark"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/themeSwitch"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintTop_toBottomOf="@+id/settingsTextView" />
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/changeThemeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="31dp"
@@ -62,13 +62,13 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintTop_toBottomOf="@+id/settingsTextView" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/resetValuesTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="380dp"
         android:text="@string/settings_reset_text"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -86,6 +86,26 @@
         app:backgroundTint="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        app:layout_constraintTop_toBottomOf="@+id/resetValuesTextView" />
+
+    <TextView
+        android:id="@+id/selectLanguageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="58dp"
+        android:text="@string/settings_select_language"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/themeSwitch" />
+
+    <Spinner
+        android:id="@+id/languageSpinner"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectLanguageTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

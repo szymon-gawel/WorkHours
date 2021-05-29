@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -23,6 +24,9 @@ public class SalaryActivity extends AppCompatActivity {
     EditText hourlyRateText;
     TextView salaryTextView;
     EditText currencyEditText;
+    TextView salaryLabel;
+    Button applyButton;
+    Button calcButton;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
     Currency[] currencies;
@@ -33,6 +37,7 @@ public class SalaryActivity extends AppCompatActivity {
     String hourlyRate;
     String currency;
     String salarySP;
+    String lang;
 
 
     @Override
@@ -47,6 +52,7 @@ public class SalaryActivity extends AppCompatActivity {
         spMinutes = preferences.getInt("Minutes", 0);
         currency = preferences.getString("Currency", "");
         hourlyRate = preferences.getString("HourlyRate", "0");
+        lang = preferences.getString("Language", "eng");
 
         Double minutesDevided = new Double(spMinutes);
         salary = Double.parseDouble(hourlyRate) * (spHours + (minutesDevided/60));
@@ -58,6 +64,11 @@ public class SalaryActivity extends AppCompatActivity {
         hourlyRateText = findViewById(R.id.hourlyRate);
         salaryTextView = findViewById(R.id.salaryAmountTextView);
         currencyEditText = findViewById(R.id.currencyEditText);
+        applyButton = findViewById(R.id.applyButton);
+        calcButton = findViewById(R.id.calculateButton);
+        salaryLabel = findViewById(R.id.salaryLabel);
+
+        setLanguage();
 
         salarySP = preferences.getString("Salary", "0");
 
@@ -105,28 +116,69 @@ public class SalaryActivity extends AppCompatActivity {
 
     public void showEmptyErrorDialog(){
         AlertDialog alertDialog = new AlertDialog.Builder(SalaryActivity.this).create();
-        alertDialog.setTitle("Warning");
-        alertDialog.setMessage("Please, type your hourly rate correctly");
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+        if(lang.equals("pl")){
+            alertDialog.setTitle("Uwaga");
+            alertDialog.setMessage("Proszę poprawnie wpisać stawkę godzinową");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+        } else {
+            alertDialog.setTitle("Warning");
+            alertDialog.setMessage("Please, type your hourly rate correctly");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+        }
         alertDialog.show();
     }
 
     public void showInvalidInputDialog(){
         AlertDialog alertDialog = new AlertDialog.Builder(SalaryActivity.this).create();
-        alertDialog.setTitle("Warning");
-        alertDialog.setMessage("You used banned word, please type valid currency");
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+        if(lang.equals("pl")){
+            alertDialog.setTitle("Uwaga");
+            alertDialog.setMessage("Nieprawidłowa waluta, proszę wprowadź poprawną");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+        } else {
+            alertDialog.setTitle("Warning");
+            alertDialog.setMessage("You used banned word, please type valid currency");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+        }
         alertDialog.show();
+    }
+
+    public void setLanguage(){
+        switch (lang){
+            case "pl":
+                hourlyRateText.setHint("Stawka godzinowa");
+                applyButton.setText("Zatwiedź");
+                calcButton.setText("Oblicz");
+                currencyEditText.setHint("zł, eur, usd itd.");
+                salaryLabel.setText("Wypłata");
+                break;
+            case "eng":
+                hourlyRateText.setHint("Hourly rate");
+                applyButton.setText("Apply");
+                calcButton.setText("Calc");
+                currencyEditText.setHint("usd, zl, eur etc.");
+                salaryLabel.setText("Salary");
+                break;
+        }
     }
 
     @Override

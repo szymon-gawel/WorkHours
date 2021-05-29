@@ -7,7 +7,7 @@
     tools:context=".SalaryActivity">
 
     <TextView
-        android:id="@+id/monthHoursView"
+        android:id="@+id/salaryLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -27,7 +27,7 @@
         android:gravity="center"
         android:textSize="72sp"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/monthHoursView"
+        app:layout_constraintBottom_toTopOf="@+id/salaryLabel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -103,16 +103,5 @@
         app:layout_constraintEnd_toStartOf="@+id/calculateButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/applyButton" />
-
-    <TextView
-        android:id="@+id/salaryTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calculateButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

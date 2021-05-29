@@ -11,9 +11,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ShareActionProvider;
+import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -34,12 +37,20 @@ public class SettingsActivity extends AppCompatActivity {
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch themeSwitch;
+    Spinner languageSpinner;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
     FirebaseFirestore database;
 
-    int docNum;
+    TextView settingsTextView;
+    TextView changeThemeTextView;
+    TextView lightTextView;
+    TextView darkTextView;
+    TextView selectLanguageTextView;
+    TextView resetValuesTextView;
+
     String theme;
+    String lang;
     String android_id;
     String TAG = "DATABASE";
 
@@ -54,8 +65,46 @@ public class SettingsActivity extends AppCompatActivity {
         database = FirebaseFirestore.getInstance();
 
         theme = preferences.getString("Theme", "Light");
+        lang = preferences.getString("Language", "eng");
+
+        setLanguage();
 
         themeSwitch = findViewById(R.id.themeSwitch);
+        languageSpinner = findViewById(R.id.languageSpinner);
+        settingsTextView = findViewById(R.id.settingsTextView);
+        changeThemeTextView = findViewById(R.id.changeThemeTextView);
+        lightTextView = findViewById(R.id.lightTextView);
+        darkTextView = findViewById(R.id.darkTextView);
+        selectLanguageTextView = findViewById(R.id.selectLanguageTextView);
+        resetValuesTextView = findViewById(R.id.resetValuesTextView);
+
+        String[] languages = {"eng", "pl"};
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, languages);
+        languageSpinner.setAdapter(adapter);
+
+        languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    case 0:
+                        editor.putString("Language", "eng").apply();
+                        editor.commit();
+                        break;
+                    case 1:
+                        editor.putString("Language", "pl").apply();
+                        editor.commit();
+                        break;
+
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
@@ -84,32 +133,81 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void showValuesResetConfirmationDialog(){
         AlertDialog alertDialog = new AlertDialog.Builder(SettingsActivity.this).create();
-        alertDialog.setTitle("Warning");
-        alertDialog.setMessage("Are you sure you want to reset all values? Logs will not be deleted");
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Confirm",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        editor.putInt("Hours", 0).apply();
-                        editor.commit();
-                        editor.putInt("Minutes", 0).apply();
-                        editor.commit();
-                        editor.putString("Currency", "").apply();
-                        editor.commit();
-                        editor.putString("Salary", "0").apply();
-                        editor.commit();
-                        editor.putString("HourlyRate", "0").apply();
-                        editor.commit();
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-        });
+        if(lang.equals("pl")){
+            alertDialog.setTitle("Uwaga");
+            alertDialog.setMessage("Na pewno chcesz zresetować wartości? Logi nie zostaną usunięte");
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Usuń",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            editor.putInt("Hours", 0).apply();
+                            editor.commit();
+                            editor.putInt("Minutes", 0).apply();
+                            editor.commit();
+                            editor.putString("Currency", "").apply();
+                            editor.commit();
+                            editor.putString("Salary", "0").apply();
+                            editor.commit();
+                            editor.putString("HourlyRate", "0").apply();
+                            editor.commit();
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Anuluj",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+        } else {
+            alertDialog.setTitle("Warning");
+            alertDialog.setMessage("Are you sure you want to reset all values? Logs will not be deleted");
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Confirm",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            editor.putInt("Hours", 0).apply();
+                            editor.commit();
+                            editor.putInt("Minutes", 0).apply();
+                            editor.commit();
+                            editor.putString("Currency", "").apply();
+                            editor.commit();
+                            editor.putString("Salary", "0").apply();
+                            editor.commit();
+                            editor.putString("HourlyRate", "0").apply();
+                            editor.commit();
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+        }
         alertDialog.show();
+    }
+
+    public void setLanguage(){
+        switch (lang){
+            case "pl":
+                settingsTextView.setText("Ustawienia");
+                changeThemeTextView.setText("Zmień motyw");
+                lightTextView.setText("Jasny");
+                darkTextView.setText("Ciemny");
+                selectLanguageTextView.setText("Wybierz język");
+                resetValuesTextView.setText("Zresetuj wartości");
+                break;
+            case "eng":
+                settingsTextView.setText("Settings");
+                changeThemeTextView.setText("Change theme");
+                lightTextView.setText("Light");
+                darkTextView.setText("Dark");
+                selectLanguageTextView.setText("Select language");
+                resetValuesTextView.setText("Reset values");
+                break;
+        }
     }
 
     @Override
