@@ -8,6 +8,7 @@ Current functionality:
 - Calculating salary
 - Clearing all  values in shared preferences (logs are not removed)
 - Changing theme (light/dark) with switch
+- Changing language (Polish and English are available at the moment)
 
 In progress:
 - Showing history of months
@@ -22,6 +23,6 @@ Things used in project:
 - XML
 - Cloud Firestore
 - Shared preferences
-- Fully functional buttons, switch and text inputs
+- Fully functional buttons, switch, spinner and text inputs
 
 App is still in early stage, please follow the project to see next steps.
