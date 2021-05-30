@@ -33,7 +33,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/addHoursText"
+        android:id="@+id/manageSalaryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
@@ -56,7 +56,7 @@
         android:text="@string/currency_button"
         app:backgroundTint="@android:color/darker_gray"
         app:layout_constraintStart_toEndOf="@+id/currencyEditText"
-        app:layout_constraintTop_toBottomOf="@+id/addHoursText" />
+        app:layout_constraintTop_toBottomOf="@+id/manageSalaryText" />
 
     <Button
         android:id="@+id/calculateButton"
@@ -86,7 +86,7 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toStartOf="@+id/applyButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addHoursText" />
+        app:layout_constraintTop_toBottomOf="@+id/manageSalaryText" />
 
     <EditText
         android:id="@+id/hourlyRate"

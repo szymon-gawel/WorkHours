@@ -67,8 +67,6 @@ public class SettingsActivity extends AppCompatActivity {
         theme = preferences.getString("Theme", "Light");
         lang = preferences.getString("Language", "eng");
 
-        setLanguage();
-
         themeSwitch = findViewById(R.id.themeSwitch);
         languageSpinner = findViewById(R.id.languageSpinner);
         settingsTextView = findViewById(R.id.settingsTextView);
@@ -77,6 +75,8 @@ public class SettingsActivity extends AppCompatActivity {
         darkTextView = findViewById(R.id.darkTextView);
         selectLanguageTextView = findViewById(R.id.selectLanguageTextView);
         resetValuesTextView = findViewById(R.id.resetValuesTextView);
+
+        setLanguage();
 
         String[] languages = {"eng", "pl"};
 
@@ -95,8 +95,6 @@ public class SettingsActivity extends AppCompatActivity {
                         editor.putString("Language", "pl").apply();
                         editor.commit();
                         break;
-
-
                 }
             }
 
@@ -243,6 +241,10 @@ public class SettingsActivity extends AppCompatActivity {
             case R.id.infoScreen:
                 Intent infoScreen = new Intent(this, InfoActivity.class);
                 startActivity(infoScreen);
+                break;
+            case R.id.historyScreen:
+                Intent historyScreen = new Intent(this, HistoryActivity.class);
+                startActivity(historyScreen);
                 break;
         }
 

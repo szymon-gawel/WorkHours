@@ -1,12 +1,10 @@
 package com.example.workhours;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -28,18 +26,16 @@ import com.google.firebase.firestore.QuerySnapshot;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
-public class LogsActivity extends AppCompatActivity {
+public class HistoryActivity extends AppCompatActivity {
 
-    private FirebaseFirestore database;
-    private ListView logsView;
-    private String android_id;
-    private ProgressBar loadingBar;
-    boolean isLoaded;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
+    FirebaseFirestore database;
+    String android_id;
+
+    ListView historyListView;
+    ProgressBar loadingBar;
 
     private static final String TAG = "DATABASE";
 
@@ -48,17 +44,20 @@ public class LogsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_logs);
+        setContentView(R.layout.activity_history);
 
+        preferences = getSharedPreferences("com.example.workhours", MODE_PRIVATE);
+        editor = preferences.edit();
         database = FirebaseFirestore.getInstance();
-        logsView = findViewById(R.id.logsView);
-        loadingBar = findViewById(R.id.loadingBar);
-        isLoaded = false;
-        logs = new ArrayList<String>();
         android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        database.collection("logs" + android_id)
-                .orderBy("date", Query.Direction.DESCENDING)
+        historyListView = findViewById(R.id.historyListView);
+        loadingBar = findViewById(R.id.progressBar);
+
+        logs = new ArrayList<String>();
+
+        database.collection("historyLogs" + android_id)
+                .orderBy("date", Query.Direction.ASCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -67,37 +66,21 @@ public class LogsActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
                                 String documentData = document.getData().toString();
-                                String[] splittedDocument = documentData.split("\\,\\s");
 
-                                String completeLog = createLogText(splittedDocument[0], splittedDocument[1], splittedDocument[2], splittedDocument[3]);
-
-                                String[] finalLogString = completeLog.split("\\}");
-
-                                String finalLog = finalLogString[0] + finalLogString[1];
-
-                                logs.add(finalLog);
+                                if(documentData.equals(null)){
+                                    break;
+                                } else {
+                                    logs.add(documentData);
+                                }
                             }
-                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(LogsActivity.this, android.R.layout.simple_list_item_1, logs);
-                            logsView.setAdapter(adapter);
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(HistoryActivity.this, android.R.layout.simple_list_item_1, logs);
+                            historyListView.setAdapter(adapter);
                             loadingBar.setVisibility(View.INVISIBLE);
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
                         }
                     }
                 });
-
-
-    }
-
-    public String createLogText(String data, String hours, String minutes, String action){
-        String[] dataSeparated = data.split("\\=");
-        String[] hoursSeparated = hours.split("\\=");
-        String[] minutesSeparated = minutes.split("\\=");
-        String[] actionSeparated = action.split("\\=");
-
-        String result = dataSeparated[1] + ", " + actionSeparated[1] + " " + hoursSeparated[1] + ":" + minutesSeparated[1];
-
-        return result;
     }
 
     @Override
@@ -139,7 +122,6 @@ public class LogsActivity extends AppCompatActivity {
                 startActivity(historyScreen);
                 break;
         }
-
         return true;
     }
 }

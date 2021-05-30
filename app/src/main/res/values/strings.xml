@@ -6,7 +6,8 @@
     <string name="main_screen_menu">Hours counter</string>
     <string name="salary_menu">Salary calculator</string>
     <string name="info_menu">Informations from creator</string>
-    <string name="info_setting">Settings</string>
+    <string name="settings_menu">Settings</string>
+    <string name="history_menu">History of months</string>
 
     <!-- Buttons -->
     <string name="add_hours_button">Add hours</string>
@@ -22,7 +23,7 @@
     <string name="currency_hint">usd, zl, eur etc.</string>
 
     <!-- Labels -->
-    <string name="month_hours_text">Last month</string>
+    <string name="month_hours_text">This month</string>
     <string name="salary_amount">Salary</string>
     <string name="salary_text">Manage salary options</string>
     <string name="add_hours">Manage working hours</string>

@@ -25,6 +25,7 @@ public class SalaryActivity extends AppCompatActivity {
     TextView salaryTextView;
     EditText currencyEditText;
     TextView salaryLabel;
+    TextView manageSalaryText;
     Button applyButton;
     Button calcButton;
     SharedPreferences preferences;
@@ -67,6 +68,7 @@ public class SalaryActivity extends AppCompatActivity {
         applyButton = findViewById(R.id.applyButton);
         calcButton = findViewById(R.id.calculateButton);
         salaryLabel = findViewById(R.id.salaryLabel);
+        manageSalaryText = findViewById(R.id.manageSalaryText);
 
         setLanguage();
 
@@ -168,15 +170,17 @@ public class SalaryActivity extends AppCompatActivity {
                 hourlyRateText.setHint("Stawka godzinowa");
                 applyButton.setText("Zatwiedź");
                 calcButton.setText("Oblicz");
-                currencyEditText.setHint("zł, eur, usd itd.");
+                currencyEditText.setHint("Waluta (zł, eur itd.)");
                 salaryLabel.setText("Wypłata");
+                manageSalaryText.setText("Zarządzaj ustawieniami pensji");
                 break;
             case "eng":
                 hourlyRateText.setHint("Hourly rate");
                 applyButton.setText("Apply");
                 calcButton.setText("Calc");
-                currencyEditText.setHint("usd, zl, eur etc.");
+                currencyEditText.setHint("Currency (usd, eur...)");
                 salaryLabel.setText("Salary");
+                manageSalaryText.setText("Manage salary options");
                 break;
         }
     }
@@ -214,6 +218,10 @@ public class SalaryActivity extends AppCompatActivity {
             case R.id.infoScreen:
                 Intent infoScreen = new Intent(this, InfoActivity.class);
                 startActivity(infoScreen);
+                break;
+            case R.id.historyScreen:
+                Intent historyScreen = new Intent(this, HistoryActivity.class);
+                startActivity(historyScreen);
                 break;
         }
 

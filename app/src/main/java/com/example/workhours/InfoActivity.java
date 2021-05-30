@@ -31,12 +31,14 @@ public class InfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
 
+        preferences = getSharedPreferences("com.example.workhours", MODE_PRIVATE);
+
         lang = preferences.getString("Language", "eng");
 
         informationTextView = findViewById(R.id.informationTextView);
         textInformation = findViewById(R.id.textInformation);
         supportTextView = findViewById(R.id.supportTextView);
-        linkTextView = findViewById(R.id.lightTextView);
+        linkTextView = findViewById(R.id.linkTextView);
         contactTextView = findViewById(R.id.contactTextView);
 
         setLanguage();
@@ -53,7 +55,7 @@ public class InfoActivity extends AppCompatActivity {
                 contactTextView.setText("Konatkt");
                 break;
             case "eng":
-                informationTextView.setText("");
+                informationTextView.setText("Informations");
                 textInformation.setText("Thank you for installing my app! If you find any problems with it, do not hesitate to email me (contact info below).");
                 supportTextView.setText("If you want to support my work, you can do it on Patronite");
                 linkTextView.setText("Link soon");
@@ -96,6 +98,10 @@ public class InfoActivity extends AppCompatActivity {
             case R.id.infoScreen:
                 Intent infoScreen = new Intent(this, InfoActivity.class);
                 startActivity(infoScreen);
+                break;
+            case R.id.historyScreen:
+                Intent historyScreen = new Intent(this, HistoryActivity.class);
+                startActivity(historyScreen);
                 break;
         }
 
