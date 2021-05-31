@@ -51,6 +51,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     String theme;
     String lang;
+    String chooseLanguage;
     String android_id;
     String TAG = "DATABASE";
 
@@ -76,24 +77,29 @@ public class SettingsActivity extends AppCompatActivity {
         selectLanguageTextView = findViewById(R.id.selectLanguageTextView);
         resetValuesTextView = findViewById(R.id.resetValuesTextView);
 
+        String[] languages;
+
         setLanguage();
 
-        String[] languages = {"eng", "pl"};
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, languages);
-        languageSpinner.setAdapter(adapter);
+        languages = new String[]{chooseLanguage,"eng", "pl"};
 
         languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position){
                     case 0:
-                        editor.putString("Language", "eng").apply();
-                        editor.commit();
                         break;
                     case 1:
+                        editor.putString("Language", "eng").apply();
+                        editor.commit();
+                        lang = preferences.getString("Language", "eng");
+                        setLanguage();
+                        break;
+                    case 2:
                         editor.putString("Language", "pl").apply();
                         editor.commit();
+                        lang = preferences.getString("Language", "pl");
+                        setLanguage();
                         break;
                 }
             }
@@ -103,6 +109,9 @@ public class SettingsActivity extends AppCompatActivity {
 
             }
         });
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, languages);
+        languageSpinner.setAdapter(adapter);
 
         android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
@@ -117,10 +126,12 @@ public class SettingsActivity extends AppCompatActivity {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 editor.putString("Theme", "Dark").apply();
                 editor.commit();
+                lang = preferences.getString("Language", "eng");
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 editor.putString("Theme", "Light").apply();
                 editor.commit();
+                lang = preferences.getString("Language", "eng");
             }
         });
     }
@@ -196,6 +207,7 @@ public class SettingsActivity extends AppCompatActivity {
                 darkTextView.setText("Ciemny");
                 selectLanguageTextView.setText("Wybierz język");
                 resetValuesTextView.setText("Zresetuj wartości");
+                chooseLanguage = "Wybierz język";
                 break;
             case "eng":
                 settingsTextView.setText("Settings");
@@ -204,6 +216,7 @@ public class SettingsActivity extends AppCompatActivity {
                 darkTextView.setText("Dark");
                 selectLanguageTextView.setText("Select language");
                 resetValuesTextView.setText("Reset values");
+                chooseLanguage = "Choose language";
                 break;
         }
     }

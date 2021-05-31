@@ -49,7 +49,7 @@ public class InfoActivity extends AppCompatActivity {
         switch (lang){
             case "pl":
                 informationTextView.setText("Informacje");
-                textInformation.setText("Dziękuję za pobranie mojej aplikacji! Jeśli znajdziesz jakiś problem, nie wachaj się napisać do mnie w tej sprawie (informacje kontaktowe poniżej).");
+                textInformation.setText("Dziękuję za pobranie mojej aplikacji! Jeśli znajdziesz jakiś problem, nie wahaj się napisać do mnie w tej sprawie (informacje kontaktowe poniżej).");
                 supportTextView.setText("Jeśli chcesz wesprzeć moją pracę, możesz to zrobić na Patronite");
                 linkTextView.setText("Link już niedługo");
                 contactTextView.setText("Konatkt");
