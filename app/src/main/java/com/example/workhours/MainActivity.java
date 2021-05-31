@@ -120,7 +120,7 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         Calendar cal = Calendar.getInstance();
         currentDay = cal.get(Calendar.DAY_OF_MONTH);
         currentMonth = cal.get(Calendar.MONTH);
-        monthChanged = 0;
+        monthChanged = sharedPreferences.getInt("MonthChanged", 0);
 
         if(currentMonth == spCurrentMonth+1){
             if (monthChanged == 0){
@@ -129,14 +129,16 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
                 createHistoryLog();
                 spHours = 0;
                 spMinutes = 0;
-                monthChanged = 1;
+                editor.putInt("MonthChanged", 1).apply();
+                editor.commit();
                 editor.putInt("CurrentMonth", currentMonth).apply();
                 editor.commit();
             }
         }
 
         if (currentDay == 2){
-            monthChanged = 0;
+            editor.putInt("MonthChanged", 0).apply();
+            editor.commit();
         }
 
         if(spMinutes < 10) {
@@ -158,6 +160,13 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         currentMonth = cal.get(Calendar.MONTH);
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        editor.putInt("CurrentMonth", Calendar.MONTH).apply();
+        editor.commit();
+    }
 
     @SuppressLint("SetTextI18n")
     public void onDeleteHoursButtonClick(View view){

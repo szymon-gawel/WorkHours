@@ -96,6 +96,7 @@ public class SalaryActivity extends AppCompatActivity {
 
     public void onApplyButtonClick(View view){
         String currencyString = currencyEditText.getText().toString().toLowerCase();
+        salarySP = preferences.getString("Salary", "0");
         boolean isValid = false;
 
         for (Currency currency : currencies){
