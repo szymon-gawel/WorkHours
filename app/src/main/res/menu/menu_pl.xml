@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="@string/main_screen_menu_pl"
+        android:id="@+id/mainScreen"
+    />
+    <item
+        android:title="@string/history_menu_pl"
+        android:id="@+id/historyScreen"
+    />
+    <item
+        android:title="@string/show_details_menu_pl"
+        android:id="@+id/showDetails"
+    />
+    <item
+        android:title="@string/salary_menu_pl"
+        android:id="@+id/salaryScreen"
+    />
+    <item
+        android:title="@string/settings_menu_pl"
+        android:id="@+id/settingsScreen"
+    />
+    <item
+        android:title="@string/info_menu_pl"
+        android:id="@+id/infoScreen"
+    />
+</menu>

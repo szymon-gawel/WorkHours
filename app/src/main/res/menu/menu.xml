@@ -2,28 +2,27 @@
 <menu xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:title="@string/main_screen_menu"
+        android:title="@string/main_screen_menu_eng"
         android:id="@+id/mainScreen"
     />
     <item
-        android:title="@string/history_menu"
+        android:title="@string/history_menu_eng"
         android:id="@+id/historyScreen"
     />
     <item
-        android:title="@string/show_details_menu"
+        android:title="@string/show_details_menu_eng"
         android:id="@+id/showDetails"
     />
     <item
-        android:title="@string/salary_menu"
+        android:title="@string/salary_menu_eng"
         android:id="@+id/salaryScreen"
     />
     <item
-        android:title="@string/settings_menu"
+        android:title="@string/settings_menu_eng"
         android:id="@+id/settingsScreen"
     />
     <item
-        android:title="@string/info_menu"
+        android:title="@string/info_menu_eng"
         android:id="@+id/infoScreen"
     />
-
 </menu>

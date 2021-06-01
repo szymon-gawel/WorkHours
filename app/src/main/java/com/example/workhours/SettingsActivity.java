@@ -36,24 +36,24 @@ import org.jetbrains.annotations.NotNull;
 public class SettingsActivity extends AppCompatActivity {
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
-    Switch themeSwitch;
-    Spinner languageSpinner;
-    SharedPreferences preferences;
-    SharedPreferences.Editor editor;
-    FirebaseFirestore database;
+    private Switch themeSwitch;
+    private Spinner languageSpinner;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
+    private FirebaseFirestore database;
 
-    TextView settingsTextView;
-    TextView changeThemeTextView;
-    TextView lightTextView;
-    TextView darkTextView;
-    TextView selectLanguageTextView;
-    TextView resetValuesTextView;
+    private TextView settingsTextView;
+    private TextView changeThemeTextView;
+    private TextView lightTextView;
+    private TextView darkTextView;
+    private TextView selectLanguageTextView;
+    private TextView resetValuesTextView;
 
-    String theme;
-    String lang;
-    String chooseLanguage;
-    String android_id;
-    String TAG = "DATABASE";
+    private String theme;
+    private String lang;
+    private String chooseLanguage;
+    private String android_id;
+    private String TAG = "DATABASE";
 
     @SuppressLint("HardwareIds")
     @Override
@@ -225,7 +225,11 @@ public class SettingsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu, menu);
+        if(lang.equals("eng")){
+            menuInflater.inflate(R.menu.menu, menu);
+        } else {
+            menuInflater.inflate(R.menu.menu_pl, menu);
+        }
 
         return super.onCreateOptionsMenu(menu);
     }

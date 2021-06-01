@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -36,25 +37,32 @@ import java.util.ListIterator;
 public class LogsActivity extends AppCompatActivity {
 
     private FirebaseFirestore database;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
     private ListView logsView;
     private String android_id;
     private ProgressBar loadingBar;
-    boolean isLoaded;
+    private boolean isLoaded;
+    private String lang;
 
     private static final String TAG = "DATABASE";
 
-    ArrayList<String> logs;
+    private ArrayList<String> logs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logs);
 
+        preferences = getSharedPreferences("com.example.workhours", MODE_PRIVATE);
+        editor = preferences.edit();
+
         database = FirebaseFirestore.getInstance();
         logsView = findViewById(R.id.logsView);
         loadingBar = findViewById(R.id.loadingBar);
         isLoaded = false;
         logs = new ArrayList<String>();
+        lang = preferences.getString("Language", "eng");
         android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
         database.collection("logs" + android_id)
@@ -130,7 +138,11 @@ public class LogsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu, menu);
+        if(lang.equals("eng")){
+            menuInflater.inflate(R.menu.menu, menu);
+        } else {
+            menuInflater.inflate(R.menu.menu_pl, menu);
+        }
 
         return super.onCreateOptionsMenu(menu);
     }

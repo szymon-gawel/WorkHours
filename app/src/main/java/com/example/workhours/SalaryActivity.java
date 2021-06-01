@@ -21,24 +21,24 @@ import java.text.DecimalFormat;
 
 public class SalaryActivity extends AppCompatActivity {
 
-    EditText hourlyRateText;
-    TextView salaryTextView;
-    EditText currencyEditText;
-    TextView salaryLabel;
-    TextView manageSalaryText;
-    Button applyButton;
-    Button calcButton;
-    SharedPreferences preferences;
-    SharedPreferences.Editor editor;
-    Currency[] currencies;
+    private EditText hourlyRateText;
+    private TextView salaryTextView;
+    private EditText currencyEditText;
+    private TextView salaryLabel;
+    private TextView manageSalaryText;
+    private Button applyButton;
+    private Button calcButton;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
+    private Currency[] currencies;
 
-    int spHours;
-    int spMinutes;
-    double salary;
-    String hourlyRate;
-    String currency;
-    String salarySP;
-    String lang;
+    private int spHours;
+    private int spMinutes;
+    private double salary;
+    private String hourlyRate;
+    private String currency;
+    private String salarySP;
+    private String lang;
 
 
     @Override
@@ -190,7 +190,11 @@ public class SalaryActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu, menu);
+        if(lang.equals("eng")){
+            menuInflater.inflate(R.menu.menu, menu);
+        } else {
+            menuInflater.inflate(R.menu.menu_pl, menu);
+        }
 
         return super.onCreateOptionsMenu(menu);
     }

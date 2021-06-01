@@ -63,36 +63,36 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
     public static final String SEC_ID_KEY = "id";
     public static final String TAG = "DATABASE";
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
-    EditText addHours;
-    EditText deleteHours;
-    Button addButton;
-    Button deleteButton;
-    TextView monthHoursText;
-    TextView manageHoursOptions;
-    TextView hoursLabel;
-    Switch managingSwitch;
-    EditText chooseStartTime;
-    EditText chooseEndTime;
-    Button timeButton;
-    int spHours;
-    int spMinutes;
-    int currentDay;
-    int spLastHours;
-    int spLastMinutes;
-    int docNumber;
-    int historyDocNum;
-    int monthChanged;
-    int spCurrentMonth;
-    double salary;
-    String action;
-    String month;
-    String logDate;
-    String theme;
-    String lang;
-    String hourlyRate;
-    String mode;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private EditText addHours;
+    private EditText deleteHours;
+    private Button addButton;
+    private Button deleteButton;
+    private TextView monthHoursText;
+    private TextView manageHoursOptions;
+    private TextView hoursLabel;
+    private Switch managingSwitch;
+    private EditText chooseStartTime;
+    private EditText chooseEndTime;
+    private Button timeButton;
+    private int spHours;
+    private int spMinutes;
+    private int currentDay;
+    private int spLastHours;
+    private int spLastMinutes;
+    private int docNumber;
+    private int historyDocNum;
+    private int monthChanged;
+    private int spCurrentMonth;
+    private double salary;
+    private String action;
+    private String month;
+    private String logDate;
+    private String theme;
+    private String lang;
+    private String hourlyRate;
+    private String mode;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
@@ -771,7 +771,11 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu, menu);
+        if(lang.equals("eng")){
+            menuInflater.inflate(R.menu.menu, menu);
+        } else {
+            menuInflater.inflate(R.menu.menu_pl, menu);
+        }
 
         return super.onCreateOptionsMenu(menu);
     }

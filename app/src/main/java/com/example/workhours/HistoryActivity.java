@@ -29,17 +29,18 @@ import java.util.ArrayList;
 
 public class HistoryActivity extends AppCompatActivity {
 
-    SharedPreferences preferences;
-    SharedPreferences.Editor editor;
-    FirebaseFirestore database;
-    String android_id;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
+    private FirebaseFirestore database;
+    private String android_id;
 
-    ListView historyListView;
-    ProgressBar loadingBar;
+    private ListView historyListView;
+    private ProgressBar loadingBar;
 
     private static final String TAG = "DATABASE";
 
-    ArrayList<String> logs;
+    private ArrayList<String> logs;
+    private String lang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,8 @@ public class HistoryActivity extends AppCompatActivity {
 
         historyListView = findViewById(R.id.historyListView);
         loadingBar = findViewById(R.id.progressBar);
+
+        lang = preferences.getString("Language", "eng");
 
         logs = new ArrayList<String>();
 
@@ -109,7 +112,11 @@ public class HistoryActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu, menu);
+        if(lang.equals("eng")){
+            menuInflater.inflate(R.menu.menu, menu);
+        } else {
+            menuInflater.inflate(R.menu.menu_pl, menu);
+        }
 
         return super.onCreateOptionsMenu(menu);
     }

@@ -16,15 +16,15 @@ import org.w3c.dom.Text;
 
 public class InfoActivity extends AppCompatActivity {
 
-    SharedPreferences preferences;
+    private SharedPreferences preferences;
 
-    TextView informationTextView;
-    TextView textInformation;
-    TextView supportTextView;
-    TextView linkTextView;
-    TextView contactTextView;
+    private TextView informationTextView;
+    private TextView textInformation;
+    private TextView supportTextView;
+    private TextView linkTextView;
+    private TextView contactTextView;
 
-    String lang;
+    private String lang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class InfoActivity extends AppCompatActivity {
                 textInformation.setText("Dziękuję za pobranie mojej aplikacji! Jeśli znajdziesz jakiś problem, nie wahaj się napisać do mnie w tej sprawie (informacje kontaktowe poniżej).");
                 supportTextView.setText("Jeśli chcesz wesprzeć moją pracę, możesz to zrobić na Patronite");
                 linkTextView.setText("Link już niedługo");
-                contactTextView.setText("Konatkt");
+                contactTextView.setText("Kontakt");
                 break;
             case "eng":
                 informationTextView.setText("Informations");
@@ -68,7 +68,11 @@ public class InfoActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu, menu);
+        if(lang.equals("eng")){
+            menuInflater.inflate(R.menu.menu, menu);
+        } else {
+            menuInflater.inflate(R.menu.menu_pl, menu);
+        }
 
         return super.onCreateOptionsMenu(menu);
     }

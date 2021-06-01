@@ -2,12 +2,18 @@
     <string name="app_name">WorkHours</string>
 
     <!-- Menu -->
-    <string name="show_details_menu">Show working details</string>
-    <string name="main_screen_menu">Hours counter</string>
-    <string name="salary_menu">Salary calculator</string>
-    <string name="info_menu">Informations from creator</string>
-    <string name="settings_menu">Settings</string>
-    <string name="history_menu">History of months</string>
+    <string name="show_details_menu_eng">Show working details</string>
+    <string name="show_details_menu_pl">Pokaż historię</string>
+    <string name="main_screen_menu_eng">Hours counter</string>
+    <string name="main_screen_menu_pl">Licznik godzin</string>
+    <string name="salary_menu_eng">Salary calculator</string>
+    <string name="salary_menu_pl">Kalkulator wypłat</string>
+    <string name="info_menu_eng">Informations from creator</string>
+    <string name="info_menu_pl">Informacje</string>
+    <string name="settings_menu_eng">Settings</string>
+    <string name="settings_menu_pl">Ustawienia</string>
+    <string name="history_menu_eng">History of months</string>
+    <string name="history_menu_pl">Historia miesięcy</string>
 
     <!-- Buttons -->
     <string name="add_hours_button">Add hours</string>

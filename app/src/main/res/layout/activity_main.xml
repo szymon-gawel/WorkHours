@@ -121,7 +121,8 @@
         android:text="Mode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addHoursText" />
+        app:layout_constraintTop_toBottomOf="@+id/addHoursText"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <EditText
         android:id="@+id/startTimeEditText"
@@ -130,6 +131,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="44dp"
+        android:focusableInTouchMode="false"
         android:ems="10"
         android:hint="@string/startTimeHint"
         android:inputType="textPersonName"
@@ -143,6 +145,7 @@
         android:layout_marginTop="44dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
+        android:focusableInTouchMode="false"
         android:ems="10"
         android:hint="@string/endTimeHint"
         android:inputType="textPersonName"
