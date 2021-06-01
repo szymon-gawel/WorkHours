@@ -1,4 +1,4 @@
-package com.example.workhours;
+package com.smgapps.workhours;
 
 public class WorkLog {
     private int id;

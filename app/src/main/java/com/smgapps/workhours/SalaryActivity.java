@@ -1,4 +1,4 @@
-package com.example.workhours;
+package com.smgapps.workhours;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -30,7 +30,7 @@ public class SalaryActivity extends AppCompatActivity {
     private Button calcButton;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
-    private Currency[] currencies;
+    private com.smgapps.workhours.Currency[] currencies;
 
     private int spHours;
     private int spMinutes;
@@ -46,7 +46,7 @@ public class SalaryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_salary);
 
-        preferences = getSharedPreferences("com.example.workhours", MODE_PRIVATE);
+        preferences = getSharedPreferences("com.smgapps.workhours", MODE_PRIVATE);
         editor = preferences.edit();
 
         spHours = preferences.getInt("Hours", 0);
@@ -60,7 +60,7 @@ public class SalaryActivity extends AppCompatActivity {
         editor.putString("Salary", String.valueOf(salary)).apply();
         editor.commit();
 
-        currencies = Currency.values();
+        currencies = com.smgapps.workhours.Currency.values();
 
         hourlyRateText = findViewById(R.id.hourlyRate);
         salaryTextView = findViewById(R.id.salaryAmountTextView);
@@ -80,14 +80,18 @@ public class SalaryActivity extends AppCompatActivity {
     public void onCalculateButtonClick(View view){
         try {
             String hourlyRateString = hourlyRateText.getText().toString();
-            editor.putString("HourlyRate", hourlyRateString).apply();
-            editor.commit();
+            if(!hourlyRateString.isEmpty()){
+                editor.putString("HourlyRate", hourlyRateString).apply();
+                editor.commit();
 
-            Double minutesDevided = new Double(spMinutes);
-            salary = Double.parseDouble(hourlyRateString) * (spHours + (minutesDevided/60));
-            salaryTextView.setText(String.valueOf(new DecimalFormat("##.##").format(salary)) + " " + currency);
-            editor.putString("Salary", String.valueOf(salary)).apply();
-            editor.commit();
+                Double minutesDevided = new Double(spMinutes);
+                salary = Double.parseDouble(hourlyRateString) * (spHours + (minutesDevided/60));
+                salaryTextView.setText(String.valueOf(new DecimalFormat("##.##").format(salary)) + " " + currency);
+                editor.putString("Salary", String.valueOf(salary)).apply();
+                editor.commit();
+            } else {
+                showEmptyErrorDialog();
+            }
         } catch (Exception e){
             e.printStackTrace();
             showEmptyErrorDialog();

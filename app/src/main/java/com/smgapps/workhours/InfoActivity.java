@@ -1,4 +1,4 @@
-package com.example.workhours;
+package com.smgapps.workhours;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,7 +31,7 @@ public class InfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
 
-        preferences = getSharedPreferences("com.example.workhours", MODE_PRIVATE);
+        preferences = getSharedPreferences("com.smgapps.workhours", MODE_PRIVATE);
 
         lang = preferences.getString("Language", "eng");
 

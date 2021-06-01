@@ -1,4 +1,4 @@
-package com.example.workhours;
+package com.smgapps.workhours;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
@@ -61,7 +61,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        preferences = getSharedPreferences("com.example.workhours", MODE_PRIVATE);
+        preferences = getSharedPreferences("com.smgapps.workhours", MODE_PRIVATE);
         editor = preferences.edit();
         database = FirebaseFirestore.getInstance();
 

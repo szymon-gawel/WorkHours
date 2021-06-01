@@ -1,4 +1,4 @@
-package com.example.workhours;
+package com.smgapps.workhours;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,7 +47,7 @@ public class HistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        preferences = getSharedPreferences("com.example.workhours", MODE_PRIVATE);
+        preferences = getSharedPreferences("com.smgapps.workhours", MODE_PRIVATE);
         editor = preferences.edit();
         database = FirebaseFirestore.getInstance();
         android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
@@ -65,16 +65,12 @@ public class HistoryActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
-                            Log.d(TAG, "Działa");
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
                                 String documentData = document.getData().toString();
                                 String[] dataSplitted = documentData.split("\\,\\s");
 
                                 String finalLog = createHistoryLogText(dataSplitted[1], dataSplitted[0], dataSplitted[2]);
-                                Log.d(TAG, finalLog);
-
-                                Log.d(TAG, documentData);
 
                                 logs.add(finalLog);
                             }
@@ -82,7 +78,6 @@ public class HistoryActivity extends AppCompatActivity {
                             historyListView.setAdapter(adapter);
                             loadingBar.setVisibility(View.INVISIBLE);
                         } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
                         }
                     }
                 });

@@ -1,4 +1,4 @@
-package com.example.workhours;
+package com.smgapps.workhours;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -101,7 +101,7 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sharedPreferences = getSharedPreferences("com.example.workhours", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("com.smgapps.workhours", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
@@ -570,12 +570,12 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         docRef.set(historyLogToSave).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                Log.i(TAG, "Success");
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull @NotNull Exception e) {
-                Log.i(TAG, "Failed!", e);
+
             }
         });
     }
@@ -597,12 +597,12 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         docRef.set(logToSave).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                Log.i(TAG, "Success");
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull @NotNull Exception e) {
-                Log.i(TAG, "Failed!", e);
+
             }
         });
 
@@ -626,12 +626,12 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         docRef.set(logToSave).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                Log.i(TAG, "Success");
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull @NotNull Exception e) {
-                Log.i(TAG, "Failed!", e);
+
             }
         });
 

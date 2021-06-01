@@ -1,4 +1,4 @@
-package com.example.workhours;
+package com.smgapps.workhours;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -54,7 +54,7 @@ public class LogsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logs);
 
-        preferences = getSharedPreferences("com.example.workhours", MODE_PRIVATE);
+        preferences = getSharedPreferences("com.smgapps.workhours", MODE_PRIVATE);
         editor = preferences.edit();
 
         database = FirebaseFirestore.getInstance();
@@ -76,7 +76,6 @@ public class LogsActivity extends AppCompatActivity {
 
                                 String documentData = document.getData().toString();
                                 String[] splittedDocument = documentData.split("\\,\\s");
-                                Log.i(TAG, documentData);
 
                                 String completeLog;
 
@@ -92,15 +91,12 @@ public class LogsActivity extends AppCompatActivity {
                                     finalLog = finalLogString[0] + finalLogString[1];
                                 }
 
-                                Log.i(TAG, finalLog);
-
                                 logs.add(finalLog);
                             }
                             ArrayAdapter<String> adapter = new ArrayAdapter<String>(LogsActivity.this, android.R.layout.simple_list_item_1, logs);
                             logsView.setAdapter(adapter);
                             loadingBar.setVisibility(View.INVISIBLE);
                         } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
                         }
                     }
                 });
