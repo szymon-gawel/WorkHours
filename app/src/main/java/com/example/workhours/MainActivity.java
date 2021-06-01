@@ -32,6 +32,8 @@ import com.google.type.DateTime;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
@@ -49,6 +51,8 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
     public static final String DATE_KEY = "date";
     public static final String HOURS_KEY = "hours";
     public static final String MINUTES_KEY = "minutes";
+    public static final String MONTH_KEY = "month";
+    public static final String SALARY_KEY = "salary";
     public static final String ACTION_KEY = "action";
     public static final String SEC_ID_KEY = "id";
     public static final String TAG = "DATABASE";
@@ -57,7 +61,6 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
     SharedPreferences.Editor editor;
     EditText addHours;
     EditText deleteHours;
-    EditText hourlyRate;
     Button addButton;
     Button deleteButton;
     TextView monthHoursText;
@@ -66,7 +69,6 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
     int spHours;
     int spMinutes;
     int currentDay;
-    int currentMonth;
     int spLastHours;
     int spLastMinutes;
     int docNumber;
@@ -75,9 +77,11 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
     int spCurrentMonth;
     double salary;
     String action;
+    String month;
     String logDate;
     String theme;
     String lang;
+    String hourlyRate;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
@@ -101,13 +105,19 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         //Leave for testing purpose
         //resetSharedPreferences();
 
+        DateFormat dateFormat = new SimpleDateFormat("MM");
+        Date date = new Date();
+        month = dateFormat.format(date);
+
         spHours = sharedPreferences.getInt("Hours", 0);
         spMinutes = sharedPreferences.getInt("Minutes", 0);
         docNumber = sharedPreferences.getInt("DocNum", 0);
         historyDocNum = sharedPreferences.getInt("HistoryDocNum", 0);
         theme = sharedPreferences.getString("Theme", "Light");
         lang = sharedPreferences.getString("Language", "eng");
-        spCurrentMonth = sharedPreferences.getInt("CurrentMonth", 0);
+        spCurrentMonth = sharedPreferences.getInt("CurrentMonth", Integer.parseInt(month));
+        hourlyRate = sharedPreferences.getString("HourlyRate", "0");
+
 
         setLanguage();
 
@@ -117,21 +127,28 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
-        Calendar cal = Calendar.getInstance();
-        currentDay = cal.get(Calendar.DAY_OF_MONTH);
-        currentMonth = cal.get(Calendar.MONTH);
+        spCurrentMonth = sharedPreferences.getInt("CurrentMonth", Integer.parseInt(month));
+
         monthChanged = sharedPreferences.getInt("MonthChanged", 0);
 
-        if(currentMonth == spCurrentMonth+1){
-            if (monthChanged == 0){
-                spLastHours = spHours;
-                spLastMinutes = spMinutes;
-                createHistoryLog();
-                spHours = 0;
-                spMinutes = 0;
+        if(Integer.parseInt(month) == spCurrentMonth+1){
+            if (monthChanged < 1){
+                editor.putInt("LastHours", spHours).apply();
+                editor.commit();
+                editor.putInt("LastMinutes", spMinutes).apply();
+                editor.commit();
+                spLastHours = sharedPreferences.getInt("LastHours", 0);
+                spLastMinutes = sharedPreferences.getInt("LastMinutes", 0);
+                createHistoryLog(spCurrentMonth);
+                editor.putInt("Hours", 0).apply();
+                editor.commit();
+                editor.putInt("Minutes", 0).apply();
+                editor.commit();
+                spHours = sharedPreferences.getInt("Hours", 0);
+                spMinutes = sharedPreferences.getInt("Minutes", 0);
                 editor.putInt("MonthChanged", 1).apply();
                 editor.commit();
-                editor.putInt("CurrentMonth", currentMonth).apply();
+                editor.putInt("CurrentMonth", Integer.parseInt(month)).apply();
                 editor.commit();
             }
         }
@@ -156,22 +173,20 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         String timeOnly = timeAndMiliseconds[0];
 
         logDate = dateOnly + " " + timeOnly;
-
-        currentMonth = cal.get(Calendar.MONTH);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
 
-        editor.putInt("CurrentMonth", Calendar.MONTH).apply();
+        editor.putInt("CurrentMonth", Integer.parseInt(month)).apply();
         editor.commit();
     }
 
     @SuppressLint("SetTextI18n")
     public void onDeleteHoursButtonClick(View view){
         action = "delete";
-        editor.putInt("CurrentMonth", Calendar.MONTH).apply();
+        editor.putInt("CurrentMonth", Integer.parseInt(month)).apply();
         editor.commit();
         try {
             editor.putString("Doc", "log" + String.valueOf(docNumber)).apply();
@@ -250,7 +265,7 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
     @SuppressLint({"CommitPrefEdits", "SetTextI18n"})
     public void onAddHoursButtonClick(View view){
         action = "add";
-        editor.putInt("CurrentMonth", Calendar.MONTH).apply();
+        editor.putInt("CurrentMonth", Integer.parseInt(month)).apply();
         editor.commit();
         try {
             editor.putString("Doc", "log" + String.valueOf(docNumber)).apply();
@@ -312,44 +327,44 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
 
     }
 
-    public void createHistoryLog(){
+    public void createHistoryLog(int currentMonth){
         String month;
 
         switch (currentMonth){
-            case 0:
+            case 1:
                 month = "January";
                 break;
-            case 1:
+            case 2:
                 month = "February";
                 break;
-            case 2:
+            case 3:
                 month = "March";
                 break;
-            case 3:
+            case 4:
                 month = "April";
                 break;
-            case 4:
+            case 5:
                 month = "May";
                 break;
-            case 5:
+            case 6:
                 month = "June";
                 break;
-            case 6:
+            case 7:
                 month = "July";
                 break;
-            case 7:
+            case 8:
                 month = "August";
                 break;
-            case 8:
+            case 9:
                 month = "September";
                 break;
-            case 9:
+            case 10:
                 month = "October";
                 break;
-            case 10:
+            case 11:
                 month = "November";
                 break;
-            case 11:
+            case 12:
                 month = "December";
                 break;
             default:
@@ -358,6 +373,14 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         }
 
         String historyLog = "Month: " + month + ", worked hours: " + spLastHours + "." + spLastMinutes + ", salary: " + salary;
+        String historyLogHours = spLastHours + "." + spLastMinutes;
+        Double minutesDevided = new Double(spMinutes);
+        salary = Double.parseDouble(hourlyRate) * (spHours + (minutesDevided/60));
+
+        Map<String, Object> historyLogToSave = new HashMap<String, Object>();
+        historyLogToSave.put(MONTH_KEY, month);
+        historyLogToSave.put(HOURS_KEY, historyLogHours);
+        historyLogToSave.put(SALARY_KEY, salary);
 
         editor.putString("HistoryDoc", "log" + String.valueOf(historyDocNum)).apply();
         editor.commit();
@@ -370,7 +393,7 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
 
         docRef = FirebaseFirestore.getInstance().document("historyLogs" + android_id + "/" + historyDocName);
 
-        docRef.set(historyLog).addOnSuccessListener(new OnSuccessListener<Void>() {
+        docRef.set(historyLogToSave).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 Log.i(TAG, "Success");

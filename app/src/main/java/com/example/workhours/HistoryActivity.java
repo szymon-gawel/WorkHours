@@ -57,21 +57,23 @@ public class HistoryActivity extends AppCompatActivity {
         logs = new ArrayList<String>();
 
         database.collection("historyLogs" + android_id)
-                .orderBy("date", Query.Direction.ASCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
+                            Log.d(TAG, "Działa");
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
                                 String documentData = document.getData().toString();
+                                String[] dataSplitted = documentData.split("\\,\\s");
 
-                                if(documentData.equals(null)){
-                                    break;
-                                } else {
-                                    logs.add(documentData);
-                                }
+                                String finalLog = createHistoryLogText(dataSplitted[1], dataSplitted[0], dataSplitted[2]);
+                                Log.d(TAG, finalLog);
+
+                                Log.d(TAG, documentData);
+
+                                logs.add(finalLog);
                             }
                             ArrayAdapter<String> adapter = new ArrayAdapter<String>(HistoryActivity.this, android.R.layout.simple_list_item_1, logs);
                             historyListView.setAdapter(adapter);
@@ -81,6 +83,26 @@ public class HistoryActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    public String createHistoryLogText(String month, String hours, String salary){
+        String finalMonth;
+        String[] monthSeparated = month.split("\\=");
+        finalMonth = monthSeparated[1];
+
+        String finalHours;
+        String[] hoursSeparated = hours.split("\\=");
+        finalHours = hoursSeparated[1];
+
+        String finalSalary;
+        String[] salarySeparated = salary.split("\\=");
+        String[] salaryFinalSeparated = salarySeparated[1].split("\\}");
+        finalSalary = salaryFinalSeparated[0];
+
+        String currency = preferences.getString("Currency", "");
+
+        String result = "Month: " + finalMonth + ", hours: " + finalHours + ", salary: " + finalSalary + " " + currency;
+        return result;
     }
 
     @Override
