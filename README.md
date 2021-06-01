@@ -25,5 +25,6 @@ Things used in project:
 - Cloud Firestore
 - Shared preferences
 - Fully functional buttons, switch, spinner and text inputs
+- TimePicker
 
-App is still in early stage, please follow the project to see next steps.
+App is in testing stage and will be released soon. Please follow the project to see next steps.
