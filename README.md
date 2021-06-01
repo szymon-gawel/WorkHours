@@ -9,13 +9,14 @@ Current functionality:
 - Clearing all  values in shared preferences (logs are not removed)
 - Changing theme (light/dark) with switch
 - Changing language (Polish and English are available at the moment)
-
-In progress:
+- New option to add hours by selecting time of start and end of work
 - Showing history of months
 
-Future functionality:
-- Recording hours based on time (start and stop buttons)
+In progress:
 - Showing full monthly raport 
+
+Future functionality:
+More soon!
 
 Things used in project:
 - Android Studio
