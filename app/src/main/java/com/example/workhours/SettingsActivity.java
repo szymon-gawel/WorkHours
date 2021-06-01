@@ -86,6 +86,7 @@ public class SettingsActivity extends AppCompatActivity {
         languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent;
                 switch (position){
                     case 0:
                         break;
@@ -94,12 +95,18 @@ public class SettingsActivity extends AppCompatActivity {
                         editor.commit();
                         lang = preferences.getString("Language", "eng");
                         setLanguage();
+                        intent = getIntent();
+                        finish();
+                        startActivity(intent);
                         break;
                     case 2:
                         editor.putString("Language", "pl").apply();
                         editor.commit();
                         lang = preferences.getString("Language", "pl");
                         setLanguage();
+                        intent = getIntent();
+                        finish();
+                        startActivity(intent);
                         break;
                 }
             }
