@@ -21,6 +21,8 @@
     <string name="add_hours_hint">4.15 (hours.minutes)</string>
     <string name="salary_label">Hourly rate (zl.gr)</string>
     <string name="currency_hint">usd, zl, eur etc.</string>
+    <string name="startTimeHint">Start time</string>
+    <string name="endTimeHint">End time</string>
 
     <!-- Labels -->
     <string name="month_hours_text">This month</string>

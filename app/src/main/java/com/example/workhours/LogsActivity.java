@@ -68,12 +68,23 @@ public class LogsActivity extends AppCompatActivity {
 
                                 String documentData = document.getData().toString();
                                 String[] splittedDocument = documentData.split("\\,\\s");
+                                Log.i(TAG, documentData);
 
-                                String completeLog = createLogText(splittedDocument[0], splittedDocument[1], splittedDocument[2], splittedDocument[3]);
+                                String completeLog;
 
-                                String[] finalLogString = completeLog.split("\\}");
+                                String finalLog;
 
-                                String finalLog = finalLogString[0] + finalLogString[1];
+                                if(splittedDocument.length == 6){
+                                    completeLog = createLogText(splittedDocument[0], splittedDocument[1], splittedDocument[2], splittedDocument[3], splittedDocument[4], splittedDocument[5]);
+                                    finalLog = completeLog;
+                                } else {
+                                    completeLog = createLogText(splittedDocument[0], splittedDocument[1], splittedDocument[2], splittedDocument[3]);
+
+                                    String[] finalLogString = completeLog.split("\\}");
+                                    finalLog = finalLogString[0] + finalLogString[1];
+                                }
+
+                                Log.i(TAG, finalLog);
 
                                 logs.add(finalLog);
                             }
@@ -87,6 +98,21 @@ public class LogsActivity extends AppCompatActivity {
                 });
 
 
+    }
+
+    public String createLogText(String data, String hours, String minutes, String action, String startTime, String endTime){
+        String[] dataSeparated = data.split("\\=");
+        String[] hoursSeparated = hours.split("\\=");
+        String[] minutesSeparated = minutes.split("\\=");
+        String[] actionSeparated = action.split("\\=");
+        String[] startTimeSeparated = startTime.split("\\=");
+        String[] endTimeSeparated = endTime.split("\\=");
+
+        String[] endTimeFinal = endTimeSeparated[1].split("\\}");
+
+        String result = dataSeparated[1] + ", " + actionSeparated[1] + " " + hoursSeparated[1] + ":" + minutesSeparated[1] + ", " + startTimeSeparated[1] + "-" + endTimeFinal[0];
+
+        return result;
     }
 
     public String createLogText(String data, String hours, String minutes, String action){

@@ -5,6 +5,8 @@ public class WorkLog {
     private String date;
     private String hours;
     private String minutes;
+    private String startTime;
+    private String endTime;
 
     public WorkLog() {
     }
@@ -13,6 +15,14 @@ public class WorkLog {
         this.date = dateTime;
         this.hours = hours;
         this.minutes = minutes;
+    }
+
+    public WorkLog(String dateTime, String hours, String minutes, String startTime, String endTime) {
+        this.date = dateTime;
+        this.hours = hours;
+        this.minutes = minutes;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public WorkLog(int id, String dateTime, String hours, String minutes) {
@@ -32,6 +42,14 @@ public class WorkLog {
 
     public String getMinutes() {
         return minutes;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
     }
 
     public void setDate(String date) {

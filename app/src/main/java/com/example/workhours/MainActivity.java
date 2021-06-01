@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.annotation.SuppressLint;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,8 +21,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -54,6 +58,8 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
     public static final String MONTH_KEY = "month";
     public static final String SALARY_KEY = "salary";
     public static final String ACTION_KEY = "action";
+    public static final String START_KEY = "startTime";
+    public static final String END_KEY = "endTime";
     public static final String SEC_ID_KEY = "id";
     public static final String TAG = "DATABASE";
 
@@ -66,6 +72,10 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
     TextView monthHoursText;
     TextView manageHoursOptions;
     TextView hoursLabel;
+    Switch managingSwitch;
+    EditText chooseStartTime;
+    EditText chooseEndTime;
+    Button timeButton;
     int spHours;
     int spMinutes;
     int currentDay;
@@ -82,6 +92,7 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
     String theme;
     String lang;
     String hourlyRate;
+    String mode;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
@@ -101,6 +112,10 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         deleteButton = findViewById(R.id.deleteHoursButton);
         manageHoursOptions = findViewById(R.id.addHoursText);
         hoursLabel = findViewById(R.id.salaryLabel);
+        managingSwitch = findViewById(R.id.managingSwitch);
+        chooseStartTime = findViewById(R.id.startTimeEditText);
+        chooseEndTime = findViewById(R.id.endTimeEditText);
+        timeButton = findViewById(R.id.timeButton);
 
         //Leave for testing purpose
         //resetSharedPreferences();
@@ -117,7 +132,7 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         lang = sharedPreferences.getString("Language", "eng");
         spCurrentMonth = sharedPreferences.getInt("CurrentMonth", Integer.parseInt(month));
         hourlyRate = sharedPreferences.getString("HourlyRate", "0");
-
+        mode = sharedPreferences.getString("Mode", "hours");
 
         setLanguage();
 
@@ -126,6 +141,62 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
+
+        if(mode.equals("hours")){
+            addHours.setVisibility(View.VISIBLE);
+            addButton.setVisibility(View.VISIBLE);
+            deleteHours.setVisibility(View.VISIBLE);
+            deleteButton.setVisibility(View.VISIBLE);
+            timeButton.setVisibility(View.GONE);
+            chooseStartTime.setVisibility(View.GONE);
+            chooseEndTime.setVisibility(View.GONE);
+        } else {
+            addHours.setVisibility(View.GONE);
+            addButton.setVisibility(View.GONE);
+            deleteHours.setVisibility(View.GONE);
+            deleteButton.setVisibility(View.GONE);
+            timeButton.setVisibility(View.VISIBLE);
+            chooseStartTime.setVisibility(View.VISIBLE);
+            chooseEndTime.setVisibility(View.VISIBLE);
+        }
+
+        chooseStartTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                        String amPm;
+                        if (hourOfDay >= 12) {
+                            amPm = "PM";
+                        } else {
+                            amPm = "AM";
+                        }
+                        chooseStartTime.setText(String.format("%02d.%02d", hourOfDay, minutes));
+                    }
+                }, 0, 0, false);
+                timePickerDialog.show();
+            }
+        });
+
+        chooseEndTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                        String amPm;
+                        if (hourOfDay >= 12) {
+                            amPm = "PM";
+                        } else {
+                            amPm = "AM";
+                        }
+                        chooseEndTime.setText(String.format("%02d.%02d", hourOfDay, minutes));
+                    }
+                }, 0, 0, false);
+                timePickerDialog.show();
+            }
+        });
 
         spCurrentMonth = sharedPreferences.getInt("CurrentMonth", Integer.parseInt(month));
 
@@ -163,6 +234,39 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         } else {
             monthHoursText.setText(spHours + "." + spMinutes);
         }
+
+        if(mode.equals("hours")){
+            managingSwitch.setChecked(false);
+        } else {
+            managingSwitch.setChecked(true);
+        }
+
+        managingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    editor.putString("Mode", "time").apply();
+                    editor.commit();
+                    addHours.setVisibility(View.GONE);
+                    addButton.setVisibility(View.GONE);
+                    deleteHours.setVisibility(View.GONE);
+                    deleteButton.setVisibility(View.GONE);
+                    timeButton.setVisibility(View.VISIBLE);
+                    chooseStartTime.setVisibility(View.VISIBLE);
+                    chooseEndTime.setVisibility(View.VISIBLE);
+                } else {
+                    editor.putString("Mode", "hours").apply();
+                    editor.commit();
+                    addHours.setVisibility(View.VISIBLE);
+                    addButton.setVisibility(View.VISIBLE);
+                    deleteHours.setVisibility(View.VISIBLE);
+                    deleteButton.setVisibility(View.VISIBLE);
+                    timeButton.setVisibility(View.GONE);
+                    chooseStartTime.setVisibility(View.GONE);
+                    chooseEndTime.setVisibility(View.GONE);
+                }
+            }
+        });
 
         String currentDate = LocalDateTime.now().toString();
         String[] dateAndTime = currentDate.split("T");
@@ -260,6 +364,76 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
             showFormatDialog();
         }
 
+    }
+
+    public void onTimeAddHoursButtonClick(View view){
+        action = "add";
+        editor.putInt("CurrentMonth", Integer.parseInt(month)).apply();
+        editor.commit();
+
+        try{
+            editor.putString("Doc", "log" + String.valueOf(docNumber)).apply();
+            editor.commit();
+            String startTime = chooseStartTime.getText().toString();
+            String endTime = chooseEndTime.getText().toString();
+
+            String[] startTimeSplitted = startTime.split("\\.");
+            String[] endTimeSplitted = endTime.split("\\.");
+
+            String currentDate = getCurrentDate();
+
+            if(Integer.parseInt(startTimeSplitted[0]) > Integer.parseInt(endTimeSplitted[0])){
+                showNegativeNumberDialog();
+            } else {
+                int addedHours = Integer.parseInt(endTimeSplitted[0]) - Integer.parseInt(startTimeSplitted[0]);
+                int addedMinutes = Integer.parseInt(endTimeSplitted[1]) - Integer.parseInt(startTimeSplitted[1]);
+
+                int h = addedHours;
+                int m = addedMinutes;
+
+                spHours += h;
+
+                if(m < 0){
+                    spMinutes += 60 + m;
+                    addedMinutes += 60 + m;
+                    spHours -= 1;
+                } else {
+                    spMinutes += m;
+                }
+
+                if(spMinutes == 60){
+                    spHours += 1;
+                    spMinutes = 0;
+                } else if (spMinutes > 60) {
+                    spHours += 1;
+                    spMinutes -= 60;
+                }
+
+                editor.putInt("Hours", spHours).apply();
+                editor.commit();
+                editor.putInt("Minutes", spMinutes).apply();
+                editor.commit();
+
+                int hoursToDisplay = sharedPreferences.getInt("Hours", 0);
+                int minutesToDisplay = sharedPreferences.getInt("Minutes", 0);
+
+                if(minutesToDisplay < 10) {
+                    monthHoursText.setText(hoursToDisplay + ".0" + minutesToDisplay);
+                } else {
+                    monthHoursText.setText(hoursToDisplay + "." + minutesToDisplay);
+                }
+
+                try {
+                    createLog(currentDate, String.valueOf(addedHours), String.valueOf(addedMinutes), startTime, endTime);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            showFormatDialog();
+        }
     }
 
     @SuppressLint({"CommitPrefEdits", "SetTextI18n"})
@@ -406,6 +580,37 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         });
     }
 
+    public void createLog(String date, String hours, String minutes, String startTime, String endTime){
+        WorkLog log = new WorkLog(date, hours, minutes, startTime, endTime);
+
+        Map<String, Object> logToSave = new HashMap<String, Object>();
+        logToSave.put(DATE_KEY, log.getDate());
+        logToSave.put(HOURS_KEY, log.getHours());
+        logToSave.put(MINUTES_KEY, log.getMinutes());
+        logToSave.put(ACTION_KEY, action);
+        logToSave.put(START_KEY, log.getStartTime());
+        logToSave.put(END_KEY, log.getEndTime());
+
+        String docName = sharedPreferences.getString("Doc", null);
+        docRef = FirebaseFirestore.getInstance().document("logs" + android_id + "/" + docName);
+
+        docRef.set(logToSave).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.i(TAG, "Success");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+                Log.i(TAG, "Failed!", e);
+            }
+        });
+
+        docNumber += 1;
+        editor.putInt("DocNum", docNumber).apply();
+        editor.commit();
+    }
+
     public void createLog(String date, String hours, String minutes){
         WorkLog log = new WorkLog(date, hours, minutes);
 
@@ -542,6 +747,10 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
                 addHours.setHint("4.15 (godz.min)");
                 deleteHours.setHint("4.15 (godz.min)");
                 hoursLabel.setText("Obecny miesiąc");
+                chooseStartTime.setHint("Start pracy");
+                chooseEndTime.setHint("Koniec pracy");
+                timeButton.setText("Dodaj godziny");
+                managingSwitch.setText("Tryb");
                 break;
             case "eng":
                 addButton.setText("Add hours");
@@ -550,6 +759,10 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
                 addHours.setHint("4.15 (hours.minutes)");
                 deleteHours.setHint("4.15 (hours.minutes)");
                 hoursLabel.setText("This month");
+                chooseStartTime.setHint("Start time");
+                chooseEndTime.setHint("End time");
+                timeButton.setText("Add hours");
+                managingSwitch.setText("Mode");
                 break;
         }
     }
