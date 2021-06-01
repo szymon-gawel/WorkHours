@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/month_hours_text"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hoursInMonth" />
@@ -19,11 +20,11 @@
     <TextView
         android:id="@+id/hoursInMonth"
         android:layout_width="0dp"
-        android:layout_height="119dp"
+        android:layout_height="220dp"
         android:layout_marginTop="50dp"
         android:layout_marginBottom="6dp"
         android:gravity="center"
-        android:textSize="72sp"
+        android:textSize="96sp"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/salaryLabel"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +41,7 @@
         android:layout_marginEnd="147dp"
         android:layout_marginRight="147dp"
         android:text="@string/add_hours"
-        android:textSize="24sp"
+        android:textSize="48sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,50 +50,59 @@
     <Button
         android:id="@+id/addHoursButton"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="90dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="130dp"
         android:background="@drawable/custom_rounded_corners"
         android:onClick="onAddHoursButtonClick"
         android:text="@string/add_hours_button"
+        android:textSize="24sp"
         app:backgroundTint="@android:color/darker_gray"
-        app:layout_constraintEnd_toStartOf="@+id/guideline9"
-        app:layout_constraintStart_toStartOf="@+id/guideline8"
+        app:layout_constraintDimensionRatio="w,1:3"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toBottomOf="@+id/addHoursText" />
 
     <Button
         android:id="@+id/deleteHoursButton"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="120dp"
         android:background="@drawable/custom_rounded_corners"
         android:onClick="onDeleteHoursButtonClick"
         android:text="@string/delete_hours_button"
+        android:textSize="24sp"
         app:backgroundTint="@android:color/darker_gray"
-        app:layout_constraintEnd_toStartOf="@+id/guideline9"
-        app:layout_constraintStart_toStartOf="@+id/guideline8"
+        app:layout_constraintDimensionRatio="3:1"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toBottomOf="@+id/addHoursButton" />
 
     <EditText
         android:id="@+id/addHoursEditView"
         android:layout_width="0dp"
-        android:layout_height="45dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="130dp"
         android:ems="10"
         android:hint="@string/add_hours_hint"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="@+id/addHoursButton"
-        app:layout_constraintEnd_toStartOf="@+id/guideline7"
-        app:layout_constraintStart_toStartOf="@+id/guideline6" />
+        android:textSize="24sp"
+        app:layout_constraintDimensionRatio="w,1:3"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/addHoursText" />
 
     <EditText
         android:id="@+id/deleteHoursEditView"
         android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="60dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="120dp"
         android:ems="10"
         android:hint="@string/add_hours_hint"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toStartOf="@+id/guideline7"
-        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        android:textSize="24sp"
+        app:layout_constraintDimensionRatio="3:1"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/addHoursButton" />
 
     <Switch
@@ -100,7 +110,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
         android:text="Mode"
+        android:textSize="24sp"
+        app:layout_constraintDimensionRatio=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addHoursText"
@@ -108,84 +122,88 @@
 
     <EditText
         android:id="@+id/startTimeEditText"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="44dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="90dp"
         android:ems="10"
         android:focusableInTouchMode="false"
         android:hint="@string/startTimeHint"
         android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="24sp"
+        app:layout_constraintDimensionRatio="w,1:3"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/managingSwitch" />
 
     <EditText
         android:id="@+id/endTimeEditText"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="90dp"
         android:ems="10"
         android:focusableInTouchMode="false"
         android:hint="@string/endTimeHint"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="24sp"
+        app:layout_constraintDimensionRatio="3:1"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toBottomOf="@+id/managingSwitch" />
 
     <Button
         android:id="@+id/timeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="272dp"
         android:background="@drawable/custom_rounded_corners"
         android:onClick="onTimeAddHoursButtonClick"
         android:text="@string/add_hours_button"
+        android:textSize="24sp"
         app:backgroundTint="@android:color/darker_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintDimensionRatio="7:1"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/managingSwitch" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/mode1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:constraint_referenced_ids="endTimeEditText,timeButton,startTimeEditText" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/mode0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         app:constraint_referenced_ids="deleteHoursEditView,deleteHoursButton,addHoursButton,addHoursEditView" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline6"
+        android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.05" />
+        app:layout_constraintGuide_percent="0.15" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline7"
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.45" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.55" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline8"
+        android:id="@+id/guideline5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.6" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.95" />
+        app:layout_constraintGuide_percent="0.85" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
