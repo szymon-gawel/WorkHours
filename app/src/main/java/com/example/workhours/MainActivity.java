@@ -153,7 +153,7 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
             }
         }
 
-        if (currentDay == 2){
+        if (Integer.parseInt(month) == spCurrentMonth){
             editor.putInt("MonthChanged", 0).apply();
             editor.commit();
         }
