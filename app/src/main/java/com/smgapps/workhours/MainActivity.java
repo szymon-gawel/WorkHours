@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.constraintlayout.widget.Group;
 
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
@@ -76,6 +77,8 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
     private EditText chooseStartTime;
     private EditText chooseEndTime;
     private Button timeButton;
+    private Group mode0;
+    private Group mode1;
     private int spHours;
     private int spMinutes;
     private int currentDay;
@@ -116,6 +119,8 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         chooseStartTime = findViewById(R.id.startTimeEditText);
         chooseEndTime = findViewById(R.id.endTimeEditText);
         timeButton = findViewById(R.id.timeButton);
+        mode0 = findViewById(R.id.mode0);
+        mode1 = findViewById(R.id.mode1);
 
         //Leave for testing purpose
         //resetSharedPreferences();
@@ -147,17 +152,21 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
             addButton.setVisibility(View.VISIBLE);
             deleteHours.setVisibility(View.VISIBLE);
             deleteButton.setVisibility(View.VISIBLE);
+            mode0.setVisibility(View.VISIBLE);
             timeButton.setVisibility(View.GONE);
             chooseStartTime.setVisibility(View.GONE);
             chooseEndTime.setVisibility(View.GONE);
+            mode1.setVisibility(View.GONE);
         } else {
             addHours.setVisibility(View.GONE);
             addButton.setVisibility(View.GONE);
             deleteHours.setVisibility(View.GONE);
             deleteButton.setVisibility(View.GONE);
+            mode0.setVisibility(View.GONE);
             timeButton.setVisibility(View.VISIBLE);
             chooseStartTime.setVisibility(View.VISIBLE);
             chooseEndTime.setVisibility(View.VISIBLE);
+            mode1.setVisibility(View.VISIBLE);
         }
 
         chooseStartTime.setOnClickListener(new View.OnClickListener() {
@@ -251,9 +260,11 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
                     addButton.setVisibility(View.GONE);
                     deleteHours.setVisibility(View.GONE);
                     deleteButton.setVisibility(View.GONE);
+                    mode0.setVisibility(View.GONE);
                     timeButton.setVisibility(View.VISIBLE);
                     chooseStartTime.setVisibility(View.VISIBLE);
                     chooseEndTime.setVisibility(View.VISIBLE);
+                    mode1.setVisibility(View.VISIBLE);
                 } else {
                     editor.putString("Mode", "hours").apply();
                     editor.commit();
@@ -261,9 +272,11 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
                     addButton.setVisibility(View.VISIBLE);
                     deleteHours.setVisibility(View.VISIBLE);
                     deleteButton.setVisibility(View.VISIBLE);
+                    mode0.setVisibility(View.VISIBLE);
                     timeButton.setVisibility(View.GONE);
                     chooseStartTime.setVisibility(View.GONE);
                     chooseEndTime.setVisibility(View.GONE);
+                    mode1.setVisibility(View.GONE);
                 }
             }
         });
@@ -395,7 +408,8 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
 
                 if(m < 0){
                     spMinutes += 60 + m;
-                    addedMinutes += 60 + m;
+                    addedMinutes += 60;
+                    addedHours -= 1;
                     spHours -= 1;
                 } else {
                     spMinutes += m;
