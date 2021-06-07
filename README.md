@@ -13,10 +13,11 @@ Current functionality:
 - Showing history of months
 
 In progress:
-- Showing full monthly raport 
+- Creating responsive UI
 
 Future functionality:
-More soon!
+- Showing full monthly raport
+- Counting work time with buttons (start and stop)
 
 Things used in project:
 - Android Studio
