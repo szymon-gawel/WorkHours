@@ -35,6 +35,7 @@
     <string name="salary_amount">Salary</string>
     <string name="salary_text">Manage salary options</string>
     <string name="add_hours">Manage hours</string>
+    <string name="switch_text">Mode</string>
 
     <!-- Info texts -->
     <string name="info_header">Information</string>

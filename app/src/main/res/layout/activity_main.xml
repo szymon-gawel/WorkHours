@@ -55,7 +55,8 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline26"
         app:layout_constraintEnd_toStartOf="@+id/guideline9"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
-        app:layout_constraintTop_toTopOf="@+id/guideline25" />
+        app:layout_constraintTop_toTopOf="@+id/guideline25"
+        tools:ignore="UsingOnClickInXml" />
 
     <Button
         android:id="@+id/deleteHoursButton"
@@ -70,7 +71,8 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline9"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
-        app:layout_constraintTop_toTopOf="@+id/guideline27" />
+        app:layout_constraintTop_toTopOf="@+id/guideline27"
+        tools:ignore="UsingOnClickInXml" />
 
     <EditText
         android:id="@+id/addHoursEditView"
@@ -82,7 +84,8 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline26"
         app:layout_constraintEnd_toStartOf="@+id/guideline7"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
-        app:layout_constraintTop_toTopOf="@+id/guideline25" />
+        app:layout_constraintTop_toTopOf="@+id/guideline25"
+        android:autofillHints="@string/add_hours_hint" />
 
     <EditText
         android:id="@+id/deleteHoursEditView"
@@ -94,13 +97,14 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline28"
         app:layout_constraintEnd_toStartOf="@+id/guideline7"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
-        app:layout_constraintTop_toTopOf="@+id/guideline27" />
+        app:layout_constraintTop_toTopOf="@+id/guideline27"
+        android:autofillHints="@string/add_hours_hint" />
 
     <Switch
         android:id="@+id/managingSwitch"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="Mode"
+        android:text="@string/switch_text"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/guideline12"
         app:layout_constraintEnd_toStartOf="@+id/guideline8"
@@ -121,7 +125,8 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline24"
         app:layout_constraintStart_toStartOf="@+id/guideline22"
         app:layout_constraintTop_toTopOf="@+id/guideline25"
-        app:layout_optimizationLevel="chains" />
+        app:layout_optimizationLevel="chains"
+        android:autofillHints="@string/startTimeHint" />
 
     <EditText
         android:id="@+id/endTimeEditText"
@@ -137,7 +142,8 @@
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
         app:layout_constraintTop_toTopOf="@+id/guideline25"
-        app:layout_optimizationLevel="chains" />
+        app:layout_optimizationLevel="chains"
+        android:autofillHints="@string/endTimeHint" />
 
     <Button
         android:id="@+id/timeButton"
@@ -151,7 +157,8 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline28"
         app:layout_constraintEnd_toStartOf="@+id/guideline19"
         app:layout_constraintStart_toStartOf="@+id/guideline18"
-        app:layout_constraintTop_toTopOf="@+id/guideline27" />
+        app:layout_constraintTop_toTopOf="@+id/guideline27"
+        tools:ignore="UsingOnClickInXml" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/mode1"
