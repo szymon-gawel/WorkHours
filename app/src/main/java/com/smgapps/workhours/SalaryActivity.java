@@ -40,7 +40,6 @@ public class SalaryActivity extends AppCompatActivity {
     private String salarySP;
     private String lang;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
