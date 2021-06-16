@@ -40,7 +40,6 @@ public class SalaryActivity extends AppCompatActivity {
     private String salarySP;
     private String lang;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,8 +72,10 @@ public class SalaryActivity extends AppCompatActivity {
         setLanguage();
 
         salarySP = preferences.getString("Salary", "0");
+        Double salaryToShow = new Double(salarySP);
+        String salaryStringToShow = String.valueOf(new DecimalFormat("##.##").format(salaryToShow));
 
-        salaryTextView.setText(salarySP + " " + currency);
+        salaryTextView.setText(salaryStringToShow + " " + currency);
     }
 
     public void onCalculateButtonClick(View view){
