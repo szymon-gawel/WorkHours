@@ -106,6 +106,7 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("com.smgapps.workhours", MODE_PRIVATE);
         editor = sharedPreferences.edit();
+
         android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
         addHours = findViewById(R.id.addHoursEditView);

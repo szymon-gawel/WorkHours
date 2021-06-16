@@ -100,8 +100,6 @@ public class LogsActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-
     }
 
     public String createLogText(String data, String hours, String minutes, String action, String startTime, String endTime){
