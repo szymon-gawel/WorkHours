@@ -123,9 +123,6 @@ public class MainActivity extends AppCompatActivity {
         mode0 = findViewById(R.id.mode0);
         mode1 = findViewById(R.id.mode1);
 
-        //Leave for testing purpose
-        //resetSharedPreferences();
-
         DateFormat dateFormat = new SimpleDateFormat("MM");
         Date date = new Date();
         month = dateFormat.format(date);
