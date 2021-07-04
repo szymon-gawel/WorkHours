@@ -25,6 +25,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class HistoryActivity extends AppCompatActivity {
@@ -99,7 +100,9 @@ public class HistoryActivity extends AppCompatActivity {
 
         String currency = preferences.getString("Currency", "");
 
-        String result = "Month: " + finalMonth + ", hours: " + finalHours + ", salary: " + finalSalary + " " + currency;
+        String salaryStringToShow = String.valueOf(new DecimalFormat("##.##").format(finalSalary));
+
+        String result = "Month: " + finalMonth + ", hours: " + finalHours + ", salary: " + salaryStringToShow + " " + currency;
         return result;
     }
 

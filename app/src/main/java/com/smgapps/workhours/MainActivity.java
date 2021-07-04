@@ -46,7 +46,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadPoolExecutor;
 
-public class MainActivity<DocumentReference> extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     private List<WorkLog> logs;
     private com.google.firebase.firestore.DocumentReference docRef;
@@ -633,9 +633,12 @@ public class MainActivity<DocumentReference> extends AppCompatActivity {
         logToSave.put(ACTION_KEY, action);
 
         String docName = sharedPreferences.getString("Doc", null);
+
         docRef = FirebaseFirestore.getInstance().document("logs" + android_id + "/" + docName);
 
-        docRef.set(logToSave).addOnSuccessListener(new OnSuccessListener<Void>() {
+        docRef
+                .set(logToSave)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
 
