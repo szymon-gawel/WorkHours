@@ -112,7 +112,49 @@ public class LogsActivity extends AppCompatActivity {
 
         String[] endTimeFinal = endTimeSeparated[1].split("\\}");
 
-        String result = dataSeparated[1] + ", " + actionSeparated[1] + " " + hoursSeparated[1] + ":" + minutesSeparated[1] + ", " + startTimeSeparated[1] + "-" + endTimeFinal[0];
+        String result = "";
+
+        if(dataSeparated.length > 1){
+            result += dataSeparated[1] + ", ";
+        } else {
+            result += "null, ";
+        }
+
+        if(hoursSeparated.length > 1){
+            result += actionSeparated[1] + ", ";
+        } else {
+            result += "null, ";
+        }
+
+        if(hoursSeparated.length > 1){
+            result += hoursSeparated[1] + ":";
+        } else {
+            result += "null, ";
+        }
+
+        if(minutesSeparated.length > 1){
+            result += minutesSeparated[1] + ", ";
+        } else {
+            result += "null";
+        }
+
+        if(minutesSeparated.length > 1){
+            result += minutesSeparated[1] + ", ";
+        } else {
+            result += "null, ";
+        }
+
+        if(startTimeSeparated.length > 1){
+            result += startTimeSeparated[1] + "-";
+        } else {
+            result += "null-";
+        }
+
+        if(endTimeSeparated.length > 1){
+            result += endTimeSeparated[1];
+        } else {
+            result += "null";
+        }
 
         return result;
     }
@@ -123,7 +165,31 @@ public class LogsActivity extends AppCompatActivity {
         String[] minutesSeparated = minutes.split("\\=");
         String[] actionSeparated = action.split("\\=");
 
-        String result = dataSeparated[1] + ", " + actionSeparated[1] + " " + hoursSeparated[1] + ":" + minutesSeparated[1];
+        String result = "";
+
+        if(dataSeparated.length > 1){
+            result += dataSeparated[1] + ", ";
+        } else {
+            result += "null, ";
+        }
+
+        if(hoursSeparated.length > 1){
+            result += actionSeparated[1] + ", ";
+        } else {
+            result += "null, ";
+        }
+
+        if(hoursSeparated.length > 1){
+            result += hoursSeparated[1] + ":";
+        } else {
+            result += "null, ";
+        }
+
+        if(minutesSeparated.length > 1){
+            result += minutesSeparated[1];
+        } else {
+            result += "null";
+        }
 
         return result;
     }

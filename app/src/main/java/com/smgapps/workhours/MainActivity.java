@@ -49,7 +49,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class MainActivity extends AppCompatActivity {
 
     private List<WorkLog> logs;
+
     private com.google.firebase.firestore.DocumentReference docRef;
+
     private com.google.firebase.firestore.DocumentReference secDocRef;
     private String android_id;
 
